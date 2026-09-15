@@ -1,0 +1,49 @@
+/* Print Stylesheet for Receipts & Invoices */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 12pt;
+  }
+
+  .sidebar,
+  .topbar,
+  .mobile-header,
+  .mobile-nav-bar,
+  .btn,
+  .quick-action-btn,
+  .no-print,
+  #toast-container {
+    display: none !important;
+  }
+
+  .main-wrapper {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+
+  .modal-backdrop {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+  }
+
+  .modal-box {
+    box-shadow: none !important;
+    max-width: 100% !important;
+    border: none !important;
+  }
+
+  .modal-header,
+  .modal-footer {
+    display: none !important;
+  }
+
+  .receipt-paper {
+    border: none !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+}
