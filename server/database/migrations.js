@@ -391,7 +391,7 @@ function runMigrations() {
 
     insertPlan.run(
       1,
-      'BizFlow Basic',
+      'BizBook Basic',
       'basic',
       5000,
       'NGN',
@@ -410,7 +410,7 @@ function runMigrations() {
 
     insertPlan.run(
       2,
-      'BizFlow Business',
+      'BizBook Business',
       'business',
       10000,
       'NGN',

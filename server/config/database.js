@@ -20,7 +20,11 @@ const db = new Database(resolvedPath, {
 
 // Enable critical SQLite pragmas for production integrity & speed
 db.pragma('foreign_keys = ON');
-db.pragma('journal_mode = WAL');
+// On Vercel serverless, use DELETE journal mode (WAL creates extra files
+// that can cause issues on ephemeral /tmp filesystem between invocations)
+if (!isVercel) {
+  db.pragma('journal_mode = WAL');
+}
 db.pragma('synchronous = NORMAL');
 db.pragma('busy_timeout = 5000');
 

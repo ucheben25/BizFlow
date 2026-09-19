@@ -1,5 +1,5 @@
-/**
- * BizFlow Financial & Operational Reports
+﻿/**
+ * BizBook Financial & Operational Reports
  * Profit & Loss, Balance Sheet, Cash Flow, and CSV Exports
  */
 

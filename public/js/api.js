@@ -1,27 +1,27 @@
-/**
- * BizFlow API Client & Utility Functions
+﻿/**
+ * BizBook API Client & Utility Functions
  */
 
 const API = {
   getToken() {
-    return localStorage.getItem('bizflow_token');
+    return localStorage.getItem('BizBook_token');
   },
 
   setToken(token) {
-    localStorage.setItem('bizflow_token', token);
+    localStorage.setItem('BizBook_token', token);
   },
 
   clearToken() {
-    localStorage.removeItem('bizflow_token');
-    localStorage.removeItem('bizflow_active_biz_id');
+    localStorage.removeItem('BizBook_token');
+    localStorage.removeItem('BizBook_active_biz_id');
   },
 
   getActiveBusinessId() {
-    return localStorage.getItem('bizflow_active_biz_id');
+    return localStorage.getItem('BizBook_active_biz_id');
   },
 
   setActiveBusinessId(id) {
-    localStorage.setItem('bizflow_active_biz_id', id);
+    localStorage.setItem('BizBook_active_biz_id', id);
   },
 
   async request(endpoint, options = {}) {

@@ -1,5 +1,5 @@
-/**
- * BizFlow Public Landing Page (Homepage)
+﻿/**
+ * BizBook Public Landing Page (Homepage)
  * Sections 1 through 12
  */
 
@@ -15,7 +15,7 @@ function renderPublicHomePage() {
           Run your business.<br>Know your numbers.
         </h1>
         <p class="hero-subtitle">
-          BizFlow helps small and growing businesses manage products, sales, expenses, customers, suppliers, staff payments, inventory, and financial records from one unified, reliable workspace.
+          BizBook helps small and growing businesses manage products, sales, expenses, customers, suppliers, staff payments, inventory, and financial records from one unified, reliable workspace.
         </p>
 
         <div class="hero-cta-group">
@@ -35,7 +35,7 @@ function renderPublicHomePage() {
               <span style="width: 10px; height: 10px; border-radius: 50%; background: #F59E0B;"></span>
               <span style="width: 10px; height: 10px; border-radius: 50%; background: #10B981;"></span>
             </div>
-            <span style="font-size: 0.78rem; font-weight: 700; color: #64748B;">BizFlow Dashboard • Real-time Business Metrics</span>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #64748B;">BizBook Dashboard • Real-time Business Metrics</span>
             <span class="badge badge-success" style="font-size: 0.72rem;">Live Engine</span>
           </div>
 
@@ -65,14 +65,14 @@ function renderPublicHomePage() {
       </div>
     </section>
 
-    <!-- SECTION 2: WHAT IS BIZFLOW? -->
+    <!-- SECTION 2: WHAT IS BizBook? -->
     <section class="public-section">
       <div class="section-container">
         <div class="section-header">
           <div class="section-eyebrow">Clarity Over Chaos</div>
-          <h2 class="section-heading">What is BizFlow?</h2>
+          <h2 class="section-heading">What is BizBook?</h2>
           <p class="section-description">
-            BizFlow brings the everyday operations of your business into one organized workspace, helping you keep track of what you sell, what you spend, what you have in stock, what customers owe, what you owe suppliers, and how your business is performing.
+            BizBook brings the everyday operations of your business into one organized workspace, helping you keep track of what you sell, what you spend, what you have in stock, what customers owe, what you owe suppliers, and how your business is performing.
           </p>
         </div>
 
@@ -86,7 +86,7 @@ function renderPublicHomePage() {
           <div style="padding: 24px; background: #F0FDF4; border-radius: var(--radius-lg); border-left: 4px solid var(--color-success);">
             <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 8px;">True Financial Accuracy</h3>
             <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;">
-              BizFlow calculates your exact Cost of Goods Sold (COGS) using real weighted average cost, giving you true gross profit and net profit—not guesses.
+              BizBook calculates your exact Cost of Goods Sold (COGS) using real weighted average cost, giving you true gross profit and net profit—not guesses.
             </p>
           </div>
           <div style="padding: 24px; background: #FFFBEB; border-radius: var(--radius-lg); border-left: 4px solid var(--color-warning);">
@@ -106,7 +106,7 @@ function renderPublicHomePage() {
           <div class="section-eyebrow">Industry Ready</div>
           <h2 class="section-heading">Designed for Real Everyday Businesses</h2>
           <p class="section-description">
-            Whether you operate an over-the-counter shop or a multi-staff distribution warehouse, BizFlow adapts to your workflow.
+            Whether you operate an over-the-counter shop or a multi-staff distribution warehouse, BizBook adapts to your workflow.
           </p>
         </div>
 
@@ -171,12 +171,12 @@ function renderPublicHomePage() {
       </div>
     </section>
 
-    <!-- SECTION 5: HOW BIZFLOW WORKS -->
+    <!-- SECTION 5: HOW BizBook WORKS -->
     <section class="public-section bg-subtle">
       <div class="section-container">
         <div class="section-header">
           <div class="section-eyebrow">Fast Onboarding</div>
-          <h2 class="section-heading">How BizFlow Works in 4 Steps</h2>
+          <h2 class="section-heading">How BizBook Works in 4 Steps</h2>
           <p class="section-description">
             Get your business set up in under five minutes with zero accounting complexity.
           </p>
@@ -214,7 +214,7 @@ function renderPublicHomePage() {
           <div class="section-eyebrow">Financial Visibility</div>
           <h2 class="section-heading">Know Your Key Financial Numbers</h2>
           <p class="section-description">
-            BizFlow breaks down your finances into clean, actionable metrics so you always know where your money is.
+            BizBook breaks down your finances into clean, actionable metrics so you always know where your money is.
           </p>
         </div>
 
@@ -245,7 +245,7 @@ function renderPublicHomePage() {
           <div class="section-eyebrow">Never Run Out</div>
           <h2 class="section-heading" style="text-align: left;">Automated Inventory & Low-Stock Alerts</h2>
           <p class="section-description" style="text-align: left; margin-bottom: 20px;">
-            Add products with barcodes, assign reorder thresholds, and let BizFlow automatically calculate your inventory value using Weighted Average Costing (WAC).
+            Add products with barcodes, assign reorder thresholds, and let BizBook automatically calculate your inventory value using Weighted Average Costing (WAC).
           </p>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
             <li style="display: flex; gap: 10px; font-size: 0.92rem; color: var(--text-primary);">
@@ -347,7 +347,7 @@ function renderPublicHomePage() {
           <div class="section-eyebrow">Enterprise Protection</div>
           <h2 class="section-heading">Security and Access Control</h2>
           <p class="section-description">
-            Your financial data belongs exclusively to you. BizFlow implements robust engineering practices to protect tenant isolation and credential privacy.
+            Your financial data belongs exclusively to you. BizBook implements robust engineering practices to protect tenant isolation and credential privacy.
           </p>
         </div>
 
@@ -388,7 +388,7 @@ function renderPublicHomePage() {
         <div class="pricing-grid">
           <!-- Basic Plan -->
           <div class="pricing-card">
-            <div class="plan-name">BizFlow Basic</div>
+            <div class="plan-name">BizBook Basic</div>
             <div class="plan-desc">Essential business management for single shops, boutiques, and small teams.</div>
             <div class="plan-price-box">
               <span class="plan-amount">₦5,000</span>
@@ -427,7 +427,7 @@ function renderPublicHomePage() {
           <!-- Business Plan -->
           <div class="pricing-card featured">
             <div class="popular-badge">Most Popular</div>
-            <div class="plan-name">BizFlow Business</div>
+            <div class="plan-name">BizBook Business</div>
             <div class="plan-desc">Comprehensive enterprise management for growing retail, wholesale, and multi-staff operations.</div>
             <div class="plan-price-box">
               <span class="plan-amount">₦10,000</span>
@@ -477,7 +477,7 @@ function renderPublicHomePage() {
           <div class="section-eyebrow">Frequently Asked Questions</div>
           <h2 class="section-heading">Answers to Common Questions</h2>
           <p class="section-description">
-            Everything you need to know about setting up and running your business on BizFlow.
+            Everything you need to know about setting up and running your business on BizBook.
           </p>
         </div>
 
@@ -489,7 +489,7 @@ function renderPublicHomePage() {
             },
             {
               q: 'Can ordinary staff members see my net profit or bank balance?',
-              a: 'No. BizFlow strictly enforces role-based access on the server. Staff and cashiers can process counter sales and look up items, but are forbidden from viewing Profit & Loss, gross/net profits, bank balances, or payroll summaries.'
+              a: 'No. BizBook strictly enforces role-based access on the server. Staff and cashiers can process counter sales and look up items, but are forbidden from viewing Profit & Loss, gross/net profits, bank balances, or payroll summaries.'
             },
             {
               q: 'How does the staff limit work for each plan?',
@@ -497,11 +497,11 @@ function renderPublicHomePage() {
             },
             {
               q: 'How does salary payment integrate into my accounts?',
-              a: 'When you record a salary payout, BizFlow automatically writes a balanced double-entry journal entry: debiting Salaries & Wages Operating Expense (6040) and crediting Cash on Hand or Bank Account, ensuring accurate P&L and Balance Sheet records.'
+              a: 'When you record a salary payout, BizBook automatically writes a balanced double-entry journal entry: debiting Salaries & Wages Operating Expense (6040) and crediting Cash on Hand or Bank Account, ensuring accurate P&L and Balance Sheet records.'
             },
             {
               q: 'What happens to my data if my subscription expires?',
-              a: 'Your business data is 100% safe and permanently preserved. BizFlow will never delete your transactions or records upon subscription lapse. You simply renew your plan to resume active operational billing.'
+              a: 'Your business data is 100% safe and permanently preserved. BizBook will never delete your transactions or records upon subscription lapse. You simply renew your plan to resume active operational billing.'
             }
           ].map((item, idx) => `
             <div class="faq-card" onclick="toggleFaqAccordion(${idx})">
@@ -529,7 +529,7 @@ function renderPublicHomePage() {
         </p>
 
         <button class="btn btn-primary btn-lg" onclick="navigateToAuth('register')" style="padding: 16px 36px; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(10, 88, 202, 0.4);">
-          Get Started with BizFlow Now &rarr;
+          Get Started with BizBook Now &rarr;
         </button>
       </div>
     </section>

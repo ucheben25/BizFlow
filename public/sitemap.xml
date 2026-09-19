@@ -1,49 +1,49 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://bizflow.ng/</loc>
+    <loc>https://BizBook.ng/</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://bizflow.ng/#about</loc>
+    <loc>https://BizBook.ng/#about</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bizflow.ng/#features</loc>
+    <loc>https://BizBook.ng/#features</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://bizflow.ng/#pricing</loc>
+    <loc>https://BizBook.ng/#pricing</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://bizflow.ng/#faq</loc>
+    <loc>https://BizBook.ng/#faq</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bizflow.ng/#contact</loc>
+    <loc>https://BizBook.ng/#contact</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bizflow.ng/#privacy</loc>
+    <loc>https://BizBook.ng/#privacy</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://bizflow.ng/#terms</loc>
+    <loc>https://BizBook.ng/#terms</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

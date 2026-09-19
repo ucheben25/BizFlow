@@ -1,5 +1,5 @@
-/**
- * BizFlow Purchases & Supplier Restocking
+﻿/**
+ * BizBook Purchases & Supplier Restocking
  */
 
 let purchaseOrdersList = [];

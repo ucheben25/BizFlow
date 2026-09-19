@@ -1,12 +1,12 @@
 /**
- * BizFlow AI Business Assistant Component
+ * BizBook AI Business Assistant Component
  * Grounded in verified database records with zero hallucination
  */
 
 const aiMessages = [
   {
     role: 'assistant',
-    text: 'Hello! I am your **BizFlow AI Business Assistant**. I analyze your real sales, expenses, and inventory data directly from your verified accounting ledger to answer your business questions with 100% precision.\n\nTap any suggested prompt below or type your question.'
+    text: 'Hello! I am your **BizBook AI Business Assistant**. I analyze your real sales, expenses, and inventory data directly from your verified accounting ledger to answer your business questions with 100% precision.\n\nTap any suggested prompt below or type your question.'
   }
 ];
 
@@ -25,7 +25,7 @@ function renderAiView() {
           </div>
           <div>
             <div style="font-weight: 800; color: var(--navy-dark); display: flex; align-items: center; gap: 8px;">
-              BizFlow AI Financial Intelligence
+              BizBook AI Financial Intelligence
               <span class="ai-badge">Ledger Verified</span>
             </div>
             <div style="font-size: 0.75rem; color: var(--text-muted);">Grounded in double-entry books • 0% hallucination</div>

@@ -1,5 +1,5 @@
-/**
- * BizFlow Customer & Debtor Management
+﻿/**
+ * BizBook Customer & Debtor Management
  */
 
 async function renderCustomers() {

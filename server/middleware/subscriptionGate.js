@@ -20,7 +20,7 @@ function requireActiveSubscription(req, res, next) {
         planName: sub.planName,
         isExpired: sub.isExpired,
         error: sub.isExpired
-          ? 'Your BizFlow subscription has expired. Please renew your plan to continue accessing business tools.'
+          ? 'Your BizBook subscription has expired. Please renew your plan to continue accessing business tools.'
           : 'An active subscription is required to access this business. Please complete plan checkout.'
       });
     }

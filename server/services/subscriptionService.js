@@ -1,4 +1,4 @@
-const https = require('https');
+﻿const https = require('https');
 const db = require('../config/database');
 const AuditService = require('./auditService');
 
@@ -180,7 +180,7 @@ class SubscriptionService {
       amount: plan.price,
       currency: plan.currency,
       plan,
-      publicKey: process.env.PAYSTACK_PUBLIC_KEY || 'pk_test_bizflow_demo_public_key'
+      publicKey: process.env.PAYSTACK_PUBLIC_KEY || 'pk_test_BizBook_demo_public_key'
     };
   }
 

@@ -1,5 +1,5 @@
-/**
- * BizFlow Public Pages
+﻿/**
+ * BizBook Public Pages
  * About, Features, Pricing, Contact, Privacy, Terms, FAQ, 404
  */
 
@@ -8,7 +8,7 @@ function renderAboutPage() {
   const contentHtml = `
     <div class="legal-container">
       <div class="legal-header">
-        <h1 class="legal-title">About BizFlow</h1>
+        <h1 class="legal-title">About BizBook</h1>
         <p class="legal-meta">Run your business. Know your numbers.</p>
       </div>
 
@@ -21,12 +21,12 @@ function renderAboutPage() {
           Too often, that critical business data is scattered across paper notebooks, messy spreadsheets, fading thermal slips, instant messaging apps, and memory. When information is fragmented, business owners struggle to answer fundamental questions: <em>Am I actually making a net profit? How much stock do I really have? Who owes me money today?</em>
         </p>
         <p>
-          <strong>BizFlow was built to bring those everyday business records together into one reliable, trustworthy workspace.</strong>
+          <strong>BizBook was built to bring those everyday business records together into one reliable, trustworthy workspace.</strong>
         </p>
 
         <h2>What We Help Businesses Do</h2>
         <p>
-          BizFlow connects daily counter operations directly to verified financial statements without requiring the owner to hold an accounting degree:
+          BizBook connects daily counter operations directly to verified financial statements without requiring the owner to hold an accounting degree:
         </p>
         <ul>
           <li><strong>Track Every Naira:</strong> From counter cash to bank transfers and POS settlement slips.</li>
@@ -36,9 +36,9 @@ function renderAboutPage() {
           <li><strong>Enforce Role Privacy:</strong> Keep sensitive company net margins, bank balances, and executive payroll restricted from ordinary counter cashiers.</li>
         </ul>
 
-        <h2>Who BizFlow Is For</h2>
+        <h2>Who BizBook Is For</h2>
         <p>
-          BizFlow is purposely designed for real small and growing enterprises operating in dynamic commercial environments:
+          BizBook is purposely designed for real small and growing enterprises operating in dynamic commercial environments:
         </p>
         <ul>
           <li>Retail supermarkets, grocery stores, and neighborhood provisions marts.</li>
@@ -61,7 +61,7 @@ function renderAboutPage() {
 
         <div style="margin-top: 40px; text-align: center;">
           <button class="btn btn-primary btn-lg" onclick="navigateToAuth('register')">
-            Get Started with BizFlow Today &rarr;
+            Get Started with BizBook Today &rarr;
           </button>
         </div>
       </div>
@@ -80,7 +80,7 @@ function renderFeaturesPage() {
           <div class="section-eyebrow">Complete Platform Overview</div>
           <h1 class="section-heading">Features Built for Complete Operational Control</h1>
           <p class="section-description">
-            Explore how BizFlow unifies counter sales, inventory tracking, payroll management, and double-entry accounting.
+            Explore how BizBook unifies counter sales, inventory tracking, payroll management, and double-entry accounting.
           </p>
         </div>
 
@@ -239,7 +239,7 @@ function renderPricingPage() {
         <div class="pricing-grid">
           <!-- Basic Plan -->
           <div class="pricing-card">
-            <div class="plan-name">BizFlow Basic</div>
+            <div class="plan-name">BizBook Basic</div>
             <div class="plan-desc">Perfect for single-location shops, retail counters, and solo operators with one helper.</div>
             <div class="plan-price-box">
               <span class="plan-amount">₦5,000</span>
@@ -278,7 +278,7 @@ function renderPricingPage() {
           <!-- Business Plan -->
           <div class="pricing-card featured">
             <div class="popular-badge">Most Popular</div>
-            <div class="plan-name">BizFlow Business</div>
+            <div class="plan-name">BizBook Business</div>
             <div class="plan-desc">Designed for scaling retail, wholesale, supermarkets, and multi-staff operations.</div>
             <div class="plan-price-box">
               <span class="plan-amount">₦10,000</span>
@@ -332,7 +332,7 @@ function renderContactPage() {
       <div class="section-container" style="max-width: 900px;">
         <div class="section-header">
           <div class="section-eyebrow">Get in Touch</div>
-          <h1 class="section-heading">Contact the BizFlow Team</h1>
+          <h1 class="section-heading">Contact the BizBook Team</h1>
           <p class="section-description">
             Have questions about onboarding your business or configuring subscription seats? Send us a message and our support team will respond promptly.
           </p>
@@ -345,11 +345,11 @@ function renderContactPage() {
             <div style="display: flex; flex-direction: column; gap: 20px; font-size: 0.92rem; color: var(--text-secondary);">
               <div>
                 <div style="font-weight: 750; color: var(--navy-dark); margin-bottom: 2px;">Email Support</div>
-                <a href="mailto:support@bizflow.ng" style="color: var(--blue-primary); font-weight: 600;">support@bizflow.ng</a>
+                <a href="mailto:support@BizBook.ng" style="color: var(--blue-primary); font-weight: 600;">support@BizBook.ng</a>
               </div>
               <div>
                 <div style="font-weight: 750; color: var(--navy-dark); margin-bottom: 2px;">Phone Inquiries</div>
-                <div>+234 800 BIZFLOW (+234 800 249 3569)</div>
+                <div>+234 800 BizBook (+234 800 249 3569)</div>
                 <div style="font-size: 0.8rem; color: var(--text-muted);">Mon – Fri: 8:00 AM – 6:00 PM WAT</div>
               </div>
               <div>
@@ -439,11 +439,11 @@ function renderPrivacyPage() {
       <div class="legal-content">
         <h2>1. Introduction</h2>
         <p>
-          BizFlow ("we", "our", or "us") is dedicated to safeguarding the privacy and integrity of information entrusted to us by business enterprises and their authorized representatives. This Privacy Policy explains how we collect, process, store, and protect your information when accessing our platform.
+          BizBook ("we", "our", or "us") is dedicated to safeguarding the privacy and integrity of information entrusted to us by business enterprises and their authorized representatives. This Privacy Policy explains how we collect, process, store, and protect your information when accessing our platform.
         </p>
 
         <h2>2. Information We Collect</h2>
-        <p>In operating the BizFlow platform, we collect the following categories of information:</p>
+        <p>In operating the BizBook platform, we collect the following categories of information:</p>
         <ul>
           <li><strong>Account Information:</strong> Full name, verified business email address, phone number, and encrypted authentication credentials.</li>
           <li><strong>Business Entity Information:</strong> Registered trading name, industry categorization, business address, local government area/state, tax identification number, and default functional currency.</li>
@@ -467,7 +467,7 @@ function renderPrivacyPage() {
 
         <h2>5. Third-Party Payment Processing</h2>
         <p>
-          Subscription transactions are processed through authorized payment infrastructure partners (such as Paystack). BizFlow does not store raw credit card numbers or banking PINs on its application servers.
+          Subscription transactions are processed through authorized payment infrastructure partners (such as Paystack). BizBook does not store raw credit card numbers or banking PINs on its application servers.
         </p>
 
         <h2>6. Data Retention & User Rights</h2>
@@ -477,7 +477,7 @@ function renderPrivacyPage() {
 
         <h2>7. Contact Inquiries</h2>
         <p>
-          For privacy inquiries or compliance notices, please contact us at <a href="mailto:privacy@bizflow.ng">privacy@bizflow.ng</a>.
+          For privacy inquiries or compliance notices, please contact us at <a href="mailto:privacy@BizBook.ng">privacy@BizBook.ng</a>.
         </p>
       </div>
     </div>
@@ -498,7 +498,7 @@ function renderTermsPage() {
       <div class="legal-content">
         <h2>1. Acceptance of Terms</h2>
         <p>
-          By creating an account or accessing the BizFlow business platform, you agree to be bound by these Terms of Service. If you are registering on behalf of a corporate entity, you affirm you hold legal authority to bind that enterprise.
+          By creating an account or accessing the BizBook business platform, you agree to be bound by these Terms of Service. If you are registering on behalf of a corporate entity, you affirm you hold legal authority to bind that enterprise.
         </p>
 
         <h2>2. Business Responsibilities</h2>
@@ -508,11 +508,11 @@ function renderTermsPage() {
 
         <h2>3. Subscription Plans & User Limits</h2>
         <p>
-          BizFlow offers monthly recurring subscription tiers:
+          BizBook offers monthly recurring subscription tiers:
         </p>
         <ul>
-          <li><strong>BizFlow Basic:</strong> ₦5,000 per month, supporting a maximum of 2 active users (Owner + 1 staff).</li>
-          <li><strong>BizFlow Business:</strong> ₦10,000 per month, supporting a maximum of 5 active users.</li>
+          <li><strong>BizBook Basic:</strong> ₦5,000 per month, supporting a maximum of 2 active users (Owner + 1 staff).</li>
+          <li><strong>BizBook Business:</strong> ₦10,000 per month, supporting a maximum of 5 active users.</li>
         </ul>
         <p>
           User limits encompass all active members belonging to the business account. Attempting to add users beyond plan allocation requires an upgrade. Subscriptions remain pending until successful verification with the payment provider.
@@ -520,17 +520,17 @@ function renderTermsPage() {
 
         <h2>4. User Roles & Financial Restrictions</h2>
         <p>
-          BizFlow distinguishes between business owners/administrators and operational staff. Staff and cashier roles are granted operational permissions (such as POS checkout) but are strictly prohibited from inspecting executive financial reports, Profit & Loss figures, cash balances, or salary summaries.
+          BizBook distinguishes between business owners/administrators and operational staff. Staff and cashier roles are granted operational permissions (such as POS checkout) but are strictly prohibited from inspecting executive financial reports, Profit & Loss figures, cash balances, or salary summaries.
         </p>
 
         <h2>5. Acceptable Use & Financial Records</h2>
         <p>
-          Users agree not to input fraudulent transactions or attempt unauthorized privilege escalation. BizFlow maintains permanent, tamper-evident audit logs of transactions, voids, and administrative changes.
+          Users agree not to input fraudulent transactions or attempt unauthorized privilege escalation. BizBook maintains permanent, tamper-evident audit logs of transactions, voids, and administrative changes.
         </p>
 
         <h2>6. Service Availability & Limitation of Liability</h2>
         <p>
-          BizFlow strives for 99.9% uptime. BizFlow is a business software tool providing calculations based strictly on data inputted by users. Final tax and statutory compliance filings remain the responsibility of the business enterprise.
+          BizBook strives for 99.9% uptime. BizBook is a business software tool providing calculations based strictly on data inputted by users. Final tax and statutory compliance filings remain the responsibility of the business enterprise.
         </p>
       </div>
     </div>
@@ -548,25 +548,25 @@ function renderFaqPage() {
           <div class="section-eyebrow">Help & Clarity</div>
           <h1 class="section-heading">Frequently Asked Questions</h1>
           <p class="section-description">
-            Clear, honest answers to common questions about running your enterprise on BizFlow.
+            Clear, honest answers to common questions about running your enterprise on BizBook.
           </p>
         </div>
 
         <div class="faq-container">
           ${[
-            { q: 'What is BizFlow?', a: 'BizFlow is a unified business and financial management web application that combines point-of-sale checkout, inventory tracking, debtor/creditor ledgers, payroll calculation, and double-entry accounting in one workspace.' },
-            { q: 'Who is BizFlow for?', a: 'Retail shops, supermarkets, wholesale distributors, building material yards, electronics stores, boutiques, restaurants, and growing small businesses.' },
+            { q: 'What is BizBook?', a: 'BizBook is a unified business and financial management web application that combines point-of-sale checkout, inventory tracking, debtor/creditor ledgers, payroll calculation, and double-entry accounting in one workspace.' },
+            { q: 'Who is BizBook for?', a: 'Retail shops, supermarkets, wholesale distributors, building material yards, electronics stores, boutiques, restaurants, and growing small businesses.' },
             { q: 'Can I add my own products and categories?', a: 'Yes. You can add unlimited products, define your purchase costs and selling prices, assign custom units (bags, cartons, pcs), and upload barcodes.' },
-            { q: 'How does stock tracking work?', a: 'Stock deducts automatically upon checkout. When you restock, BizFlow uses Weighted Average Costing (WAC) to adjust your cost price dynamically.' },
+            { q: 'How does stock tracking work?', a: 'Stock deducts automatically upon checkout. When you restock, BizBook uses Weighted Average Costing (WAC) to adjust your cost price dynamically.' },
             { q: 'Can I track customer debts (receivables)?', a: 'Yes! When a customer purchases on credit or makes a partial deposit, their outstanding balance is recorded and tracked on their ledger.' },
             { q: 'Can I track supplier debts (payables)?', a: 'Yes. Every restock purchase can be paid in full or recorded as credit, showing exactly how much you owe each distributor.' },
             { q: 'Can I record everyday business expenses?', a: 'Yes. You can log utility bills, generator fuel, transport, store rent, and maintenance, categorized directly into your operating expenses.' },
-            { q: 'Can I manage staff and track salaries?', a: 'Yes. BizFlow features a full staff directory and a payroll engine that calculates Basic Salary + Allowances - Deductions = Net Payout.' },
-            { q: 'Does salary payment integrate into my financial accounts?', a: 'Yes! When you record a salary payout, BizFlow writes a double-entry journal entry: debiting Salaries & Wages Expense (6040) and crediting Cash on Hand or Bank Account.' },
-            { q: 'Does BizFlow calculate profit accurately?', a: 'Yes. BizFlow calculates true Gross Profit (Revenue - WAC COGS) and Net Profit (Gross Profit - Operating Expenses & Salaries).' },
+            { q: 'Can I manage staff and track salaries?', a: 'Yes. BizBook features a full staff directory and a payroll engine that calculates Basic Salary + Allowances - Deductions = Net Payout.' },
+            { q: 'Does salary payment integrate into my financial accounts?', a: 'Yes! When you record a salary payout, BizBook writes a double-entry journal entry: debiting Salaries & Wages Expense (6040) and crediting Cash on Hand or Bank Account.' },
+            { q: 'Does BizBook calculate profit accurately?', a: 'Yes. BizBook calculates true Gross Profit (Revenue - WAC COGS) and Net Profit (Gross Profit - Operating Expenses & Salaries).' },
             { q: 'Can multiple people use one business account?', a: 'Yes. The Basic plan supports up to 2 active users, and the Business plan supports up to 5 active users with customizable role permissions.' },
             { q: 'Can ordinary staff members see my net profit or bank balance?', a: 'No! The backend enforces strict role-based access control. Ordinary staff and cashiers cannot access P&L, balance sheets, expenses, or payroll summaries.' },
-            { q: 'What are the subscription plans?', a: 'BizFlow Basic is ₦5,000/month (up to 2 users), and BizFlow Business is ₦10,000/month (up to 5 users). Billed monthly.' },
+            { q: 'What are the subscription plans?', a: 'BizBook Basic is ₦5,000/month (up to 2 users), and BizBook Business is ₦10,000/month (up to 5 users). Billed monthly.' },
             { q: 'How does payment work?', a: 'Payments are processed securely via verified payment gateway providers like Paystack. Subscriptions become active upon server-side transaction verification.' },
             { q: 'What happens if my subscription expires?', a: 'Your data is 100% safe and permanently preserved. You will simply be prompted to renew your subscription to resume active operational billing.' },
             { q: 'Can I export reports and print receipts?', a: 'Yes. Invoices and POS receipts can be printed to standard 80mm/58mm thermal receipt printers, and financial statements can be printed or exported.' }
@@ -600,7 +600,7 @@ function render404Page() {
           The page you requested could not be found. It may have moved, or the URL address may have been typed incorrectly.
         </p>
         <button class="btn btn-primary btn-lg" onclick="navigateToPublic('home')">
-          Return to BizFlow
+          Return to BizBook
         </button>
       </div>
     </div>

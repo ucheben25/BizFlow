@@ -1,7 +1,7 @@
 {
-  "name": "bizflow",
+  "name": "bizbook",
   "version": "1.0.0",
-  "description": "BizFlow - Run your business. Know your numbers.",
+  "description": "BizBook - Run your business. Know your numbers.",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
@@ -17,8 +17,11 @@
     "invoicing",
     "double-entry"
   ],
-  "author": "BizFlow Team",
+  "author": "BizBook Team",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.x"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^11.8.1",

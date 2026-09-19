@@ -1,5 +1,5 @@
-/**
- * BizFlow Point of Sale (POS) & Checkout Engine
+﻿/**
+ * BizBook Point of Sale (POS) & Checkout Engine
  */
 
 let posProducts = [];

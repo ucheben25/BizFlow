@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+﻿const bcrypt = require('bcryptjs');
 const db = require('../config/database');
 const { runMigrations } = require('./migrations');
 const { seedBusinessDefaults } = require('./seedAccounts');
@@ -10,11 +10,11 @@ function seedDemoData() {
   runMigrations();
 
   // Create demo owner
-  const email = 'demo@bizflow.ng';
+  const email = 'demo@BizBook.ng';
   let user = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
   if (!user) {
     const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync('bizflow123', salt);
+    const hash = bcrypt.hashSync('BizBook123', salt);
     const res = db.prepare(`
       INSERT INTO users (email, password_hash, full_name, phone)
       VALUES (?, ?, 'Babajide Adeleke', '+234 803 123 4567')
@@ -212,8 +212,8 @@ function seedDemoData() {
 
     console.log('[Seed] Demo data successfully seeded!');
     console.log(`Demo login credentials:`);
-    console.log(`Email: demo@bizflow.ng`);
-    console.log(`Password: bizflow123`);
+    console.log(`Email: demo@BizBook.ng`);
+    console.log(`Password: BizBook123`);
   } else {
     console.log('[Seed] Demo data already exists.');
   }

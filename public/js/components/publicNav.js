@@ -1,5 +1,5 @@
 /**
- * BizFlow Public Website Navigation & Footer Layout
+ * BizBook Public Website Navigation & Footer Layout
  * "Run your business. Know your numbers."
  */
 
@@ -14,7 +14,7 @@ function renderPublicLayout(contentHtml, activePage = 'home') {
           <div class="public-brand" onclick="navigateToPublic('home')">
             ${LOGO_SVG}
             <div>
-              <span class="public-brand-title">BizFlow</span>
+              <span class="public-brand-title">BizBook</span>
               <span class="public-brand-sub">Know your numbers</span>
             </div>
           </div>
@@ -81,7 +81,7 @@ function renderPublicLayout(contentHtml, activePage = 'home') {
             <div>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
                 ${LOGO_SVG}
-                <span style="font-size: 1.4rem; font-weight: 800; color: #FFFFFF;">BizFlow</span>
+                <span style="font-size: 1.4rem; font-weight: 800; color: #FFFFFF;">BizBook</span>
               </div>
               <p style="font-size: 0.9rem; font-weight: 700; color: #70B4FF; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
                 Run your business. Know your numbers.
@@ -97,7 +97,7 @@ function renderPublicLayout(contentHtml, activePage = 'home') {
               <ul class="footer-links">
                 <li><a href="#features" class="footer-link">Core Features</a></li>
                 <li><a href="#pricing" class="footer-link">Subscription Plans</a></li>
-                <li><a href="#about" class="footer-link">About BizFlow</a></li>
+                <li><a href="#about" class="footer-link">About BizBook</a></li>
                 <li><a href="#faq" class="footer-link">Frequently Asked Questions</a></li>
               </ul>
             </div>
@@ -120,13 +120,13 @@ function renderPublicLayout(contentHtml, activePage = 'home') {
                 <li><a href="#contact" class="footer-link">Contact Support</a></li>
                 <li><a href="#privacy" class="footer-link">Privacy Policy</a></li>
                 <li><a href="#terms" class="footer-link">Terms of Service</a></li>
-                <li><a href="mailto:support@bizflow.ng" class="footer-link">support@bizflow.ng</a></li>
+                <li><a href="mailto:support@bizbook.ng" class="footer-link">support@bizbook.ng</a></li>
               </ul>
             </div>
           </div>
 
           <div class="footer-bottom">
-            <div>&copy; ${new Date().getFullYear()} BizFlow Inc. All rights reserved. Built for modern African enterprises.</div>
+            <div>&copy; ${new Date().getFullYear()} BizBook Inc. All rights reserved. Built for modern African enterprises.</div>
             <div style="display: flex; gap: 16px;">
               <a href="#privacy" class="footer-link" style="font-size: 0.82rem;">Privacy</a>
               <a href="#terms" class="footer-link" style="font-size: 0.82rem;">Terms</a>

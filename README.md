@@ -1,8 +1,8 @@
-# BizFlow
+﻿# BizBook
 
 > **"Run your business. Know your numbers."**
 
-BizFlow is a production-grade financial and business management web application built for small and local businesses. It allows business owners without formal accounting training to record day-to-day business operations (sales, purchases, inventory, expenses, customer credit, supplier payables) while the backend automatically enforces strict **double-entry bookkeeping**, **Weighted Average Costing (WAC)**, **multi-tenant business data isolation**, and **financial statement generation** (Profit & Loss, Balance Sheet, Cash Flow, and Trial Balance).
+BizBook is a production-grade financial and business management web application built for small and local businesses. It allows business owners without formal accounting training to record day-to-day business operations (sales, purchases, inventory, expenses, customer credit, supplier payables) while the backend automatically enforces strict **double-entry bookkeeping**, **Weighted Average Costing (WAC)**, **multi-tenant business data isolation**, and **financial statement generation** (Profit & Loss, Balance Sheet, Cash Flow, and Trial Balance).
 
 ---
 
@@ -142,7 +142,7 @@ BF/
 
 ## 4. Design System & Brand Identity
 
-- **Brand Name**: **BizFlow**
+- **Brand Name**: **BizBook**
 - **Tagline**: *"Run your business. Know your numbers."*
 - **Visual Theme**: **BLUE AND WHITE**
   - **Brand Flow Blue** (`#0A58CA`): Expresses trust, financial clarity, and momentum.
@@ -201,7 +201,7 @@ $$\text{Net Profit} = \text{Gross Profit} - \text{Operating Expenses}$$
 
 ## 7. Inventory Valuation & Weighted Average Costing
 
-BizFlow uses **Weighted Average Cost (WAC)** to preserve historical profitability:
+BizBook uses **Weighted Average Cost (WAC)** to preserve historical profitability:
 
 $$\text{New Cost Price} = \frac{(\text{Current Stock} \times \text{Current Cost}) + (\text{Purchase Quantity} \times \text{Purchase Unit Cost})}{\text{Current Stock} + \text{Purchase Quantity}}$$
 
@@ -294,8 +294,8 @@ Open your browser at: **`http://localhost:5000`**
 
 ### Demo Credentials
 If you ran `npm run seed`, you can sign in immediately with:
-- **Email**: `demo@bizflow.ng`
-- **Password**: `bizflow123`
+- **Email**: `demo@BizBook.ng`
+- **Password**: `BizBook123`
 *(Or click the "Login with Adeleke Provisions Demo Data" button on the login screen!)*
 
 ---
@@ -318,13 +318,13 @@ This runs:
 
 1. Set `NODE_ENV=production` in your hosting environment (e.g. Render, Railway, AWS EC2, DigitalOcean).
 2. Generate a secure, high-entropy `JWT_SECRET` string.
-3. BizFlow automatically runs relational schema migrations upon startup.
+3. BizBook automatically runs relational schema migrations upon startup.
 4. If using a process manager:
    ```bash
-   pm2 start server/index.js --name "bizflow"
+   pm2 start server/index.js --name "BizBook"
    ```
 5. Ensure the persistent data directory (`./data/`) is mounted to a persistent disk volume on containerized platforms.
 
 ---
 
-*BizFlow — Run your business. Know your numbers.*
+*BizBook — Run your business. Know your numbers.*

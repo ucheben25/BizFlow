@@ -1,5 +1,5 @@
-/**
- * BizFlow Staff Management Component
+﻿/**
+ * BizBook Staff Management Component
  * Requirements 15, 20, 21
  */
 

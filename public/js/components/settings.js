@@ -1,5 +1,5 @@
-/**
- * BizFlow Settings, Team Roles, and Audit Trail Component
+﻿/**
+ * BizBook Settings, Team Roles, and Audit Trail Component
  */
 
 let activeSettingsTab = 'business';
@@ -329,7 +329,7 @@ function showAddTeamMemberModal() {
       <div class="form-group">
         <label class="form-label">Registered User Email *</label>
         <input type="email" id="team-email" class="form-control" placeholder="colleague@example.com" required>
-        <small style="color: var(--text-muted); font-size: 0.75rem;">The user must have registered an account on BizFlow first.</small>
+        <small style="color: var(--text-muted); font-size: 0.75rem;">The user must have registered an account on BizBook first.</small>
       </div>
 
       <div class="form-group">

@@ -58,7 +58,7 @@ class AiController {
 
         dataContext = { bestProducts };
         if (bestProducts.length === 0) {
-          responseText = `No completed sales records were found to calculate product profitability. Once you record sales, BizFlow will determine your top profit earners.`;
+          responseText = `No completed sales records were found to calculate product profitability. Once you record sales, BizBook will determine your top profit earners.`;
         } else {
           const top = bestProducts[0];
           responseText = `Your most profitable product is **${top.name}**, generating **${cur}${top.gross_profit.toLocaleString()}** in gross profit from ${top.qty_sold} units sold (Total Revenue: ${cur}${top.revenue.toLocaleString()}, Cost of Goods: ${cur}${top.cogs.toLocaleString()}).\n\n` +

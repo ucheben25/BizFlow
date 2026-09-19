@@ -48,7 +48,7 @@ class PublicController {
 
       return res.status(201).json({
         success: true,
-        message: 'Thank you for reaching out to BizFlow! Our support team has received your message and will respond promptly.'
+        message: 'Thank you for reaching out to BizBook! Our support team has received your message and will respond promptly.'
       });
     } catch (err) {
       return res.status(500).json({ success: false, error: 'Contact submission failed: ' + err.message });

@@ -1,5 +1,5 @@
-/**
- * BizFlow Supplier & Creditor Management
+﻿/**
+ * BizBook Supplier & Creditor Management
  */
 
 async function renderSuppliers() {

@@ -1,5 +1,5 @@
 /**
- * BizFlow Authentication & Business Onboarding Wizard
+ * BizBook Authentication & Business Onboarding Wizard
  */
 
 let authMode = 'login'; // 'login' or 'register'
@@ -15,7 +15,7 @@ function renderAuthScreen() {
           <div style="display: inline-block; margin-bottom: 12px;">
             ${LOGO_SVG}
           </div>
-          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--navy-dark); letter-spacing: -0.5px;">BizFlow</h1>
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--navy-dark); letter-spacing: -0.5px;">BizBook</h1>
           <p style="font-size: 0.82rem; font-weight: 700; color: var(--blue-primary); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">
             Run your business. Know your numbers.
           </p>
@@ -54,7 +54,7 @@ function renderLoginFormHtml() {
       </div>
 
       <button type="submit" class="btn btn-primary btn-block" id="auth-submit-btn" style="padding: 12px; font-size: 0.95rem;">
-        Sign In to BizFlow
+        Sign In to BizBook
       </button>
 
       <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-secondary);">
@@ -89,7 +89,7 @@ function renderRegisterFormHtml() {
       </div>
 
       <button type="submit" class="btn btn-primary btn-block" id="auth-submit-btn" style="padding: 12px; font-size: 0.95rem;">
-        Create BizFlow Account
+        Create BizBook Account
       </button>
 
       <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-secondary);">
@@ -150,7 +150,7 @@ async function submitLogin() {
     showToast(err.message, 'error');
     if (btn) {
       btn.disabled = false;
-      btn.textContent = 'Sign In to BizFlow';
+      btn.textContent = 'Sign In to BizBook';
     }
   }
 }
@@ -179,7 +179,7 @@ async function submitRegister() {
     showToast(err.message, 'error');
     if (btn) {
       btn.disabled = false;
-      btn.textContent = 'Create BizFlow Account';
+      btn.textContent = 'Create BizBook Account';
     }
   }
 }
@@ -212,7 +212,7 @@ function renderOnboardingStep() {
           <div style="display: flex; align-items: center; gap: 10px;">
             ${LOGO_SVG}
             <div>
-              <div style="font-weight: 800; color: var(--navy-dark); font-size: 1.1rem;">BizFlow Onboarding</div>
+              <div style="font-weight: 800; color: var(--navy-dark); font-size: 1.1rem;">BizBook Onboarding</div>
               <div style="font-size: 0.75rem; color: var(--text-muted);">Step ${onboardingStep} of 3 • Quick Setup</div>
             </div>
           </div>
@@ -324,7 +324,7 @@ function renderOnboardingStepContent() {
           <!-- Basic Plan Option -->
           <div id="ob-plan-basic" style="padding: 16px; border: 2px solid ${onboardingData.selectedPlan === 'basic' ? 'var(--blue-primary)' : 'var(--border-color)'}; background: ${onboardingData.selectedPlan === 'basic' ? 'var(--blue-subtle)' : '#FFFFFF'}; border-radius: 8px; cursor: pointer;"
                onclick="selectOnboardingPlan('basic')">
-            <div style="font-weight: 800; color: var(--navy-dark); font-size: 0.95rem;">BizFlow Basic</div>
+            <div style="font-weight: 800; color: var(--navy-dark); font-size: 0.95rem;">BizBook Basic</div>
             <div style="font-size: 1.15rem; font-weight: 800; color: var(--blue-primary); margin: 4px 0;">₦5,000 <span style="font-size: 0.72rem; color: #64748B; font-weight: 500;">/mo</span></div>
             <div style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">Max 2 Active Users (Owner + 1 staff)</div>
             <div style="font-size: 0.72rem; color: var(--text-secondary);">✓ POS & Receipts<br>✓ Inventory & Debtors<br>✓ Standard Reports</div>
@@ -334,7 +334,7 @@ function renderOnboardingStepContent() {
           <div id="ob-plan-business" style="padding: 16px; border: 2px solid ${onboardingData.selectedPlan !== 'basic' ? 'var(--blue-primary)' : 'var(--border-color)'}; background: ${onboardingData.selectedPlan !== 'basic' ? 'var(--blue-subtle)' : '#FFFFFF'}; border-radius: 8px; cursor: pointer;"
                onclick="selectOnboardingPlan('business')">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div style="font-weight: 800; color: var(--navy-dark); font-size: 0.95rem;">BizFlow Business</div>
+              <div style="font-weight: 800; color: var(--navy-dark); font-size: 0.95rem;">BizBook Business</div>
               <span class="badge badge-success" style="font-size: 0.65rem;">Popular</span>
             </div>
             <div style="font-size: 1.15rem; font-weight: 800; color: var(--blue-primary); margin: 4px 0;">₦10,000 <span style="font-size: 0.72rem; color: #64748B; font-weight: 500;">/mo</span></div>
@@ -431,7 +431,7 @@ async function nextOnboardingStep() {
 function finishOnboarding() {
   renderAppShell();
   State.setView('dashboard');
-  showToast('Welcome to BizFlow! "Run your business. Know your numbers."', 'success');
+  showToast('Welcome to BizBook! "Run your business. Know your numbers."', 'success');
 }
 
 function showCreateBusinessModal() {

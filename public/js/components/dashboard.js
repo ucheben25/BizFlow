@@ -1,5 +1,5 @@
-/**
- * BizFlow Dashboard Component
+﻿/**
+ * BizBook Dashboard Component
  * "How is my business doing?"
  */
 

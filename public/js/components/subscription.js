@@ -1,5 +1,5 @@
-/**
- * BizFlow Subscription & Plan Management Component
+﻿/**
+ * BizBook Subscription & Plan Management Component
  * Requirements 9, 10, 31, 32, 33, 34
  */
 
@@ -226,7 +226,7 @@ function showSubscriptionGatedModal(statusMessage) {
         Subscription Activation Required
       </h3>
       <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;">
-        ${statusMessage || 'An active BizFlow subscription is required to access POS, sales, inventory, and financial operations. Please activate or renew your subscription.'}
+        ${statusMessage || 'An active BizBook subscription is required to access POS, sales, inventory, and financial operations. Please activate or renew your subscription.'}
       </p>
 
       <button class="btn btn-primary btn-block btn-lg" onclick="closeModal(); State.setView('subscription');">

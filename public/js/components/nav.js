@@ -1,5 +1,5 @@
 /**
- * BizFlow Navigation, Branding, and Shell Components
+ * BizBook Navigation, Branding, and Shell Components
  */
 
 const LOGO_SVG = `
@@ -14,7 +14,7 @@ const LOGO_SVG = `
 
 function renderAppShell() {
   const root = document.getElementById('app-root');
-  const biz = State.currentBusiness || { name: 'BizFlow Store', role: 'owner', currency_symbol: '₦' };
+  const biz = State.currentBusiness || { name: 'BizBook Store', role: 'owner', currency_symbol: '₦' };
   const user = State.user || { full_name: 'User', email: '' };
   const role = (biz.role || 'owner').toLowerCase();
   const isAdmin = ['owner', 'admin'].includes(role);
@@ -27,7 +27,7 @@ function renderAppShell() {
           <div class="brand-logo-container" onclick="State.setView('dashboard')" style="cursor: pointer;">
             ${LOGO_SVG}
             <div class="brand-info">
-              <span class="brand-name">BizFlow</span>
+              <span class="brand-name">BizBook</span>
               <span class="brand-tagline">Know your numbers</span>
             </div>
           </div>
@@ -171,7 +171,7 @@ function renderAppShell() {
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <div style="font-weight: 800; font-size: 1.15rem; color: #0A58CA;">BizFlow</div>
+            <div style="font-weight: 800; font-size: 1.15rem; color: #0A58CA;">BizBook</div>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
             <button class="btn btn-primary btn-sm" onclick="State.setView('pos')">+ Sale</button>

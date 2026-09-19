@@ -61,7 +61,7 @@ app.use(errorHandler);
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`====================================================`);
-    console.log(` BizFlow Server running on http://localhost:${PORT}`);
+    console.log(` BizBook Server running on http://localhost:${PORT}`);
     console.log(` "Run your business. Know your numbers."`);
     console.log(` Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`====================================================`);

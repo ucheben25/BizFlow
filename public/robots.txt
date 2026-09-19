@@ -1,5 +1,5 @@
-# BizFlow Robots Configuration
-# https://bizflow.ng
+﻿# BizBook Robots Configuration
+# https://BizBook.ng
 # "Run your business. Know your numbers."
 
 User-agent: *
@@ -16,4 +16,4 @@ Allow: /terms
 Disallow: /api/
 Disallow: /#app/
 
-Sitemap: https://bizflow.ng/sitemap.xml
+Sitemap: https://BizBook.ng/sitemap.xml

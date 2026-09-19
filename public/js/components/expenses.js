@@ -1,5 +1,5 @@
-/**
- * BizFlow Expense Management & Breakdown
+﻿/**
+ * BizBook Expense Management & Breakdown
  */
 
 const STANDARD_EXPENSE_CATEGORIES = [

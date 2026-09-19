@@ -1,11 +1,11 @@
-/**
- * BizFlow Main Application Entry Point
+﻿/**
+ * BizBook Main Application Entry Point
  * Routing, Lifecycle, State Subscriptions & Route Dispatcher
  * "Run your business. Know your numbers."
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('BizFlow Initializing... "Run your business. Know your numbers."');
+  console.log('BizBook Initializing... "Run your business. Know your numbers."');
 
   // Pre-load authenticated user state if token exists
   if (API.getToken()) {

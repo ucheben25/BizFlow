@@ -1,5 +1,5 @@
-/**
- * BizFlow Payroll Management Component
+﻿/**
+ * BizBook Payroll Management Component
  * Requirements 16, 17, 18, 19, 21, 22
  */
 

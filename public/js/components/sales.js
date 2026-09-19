@@ -1,5 +1,5 @@
-/**
- * BizFlow Sales History, Invoices & Receipt Generation
+﻿/**
+ * BizBook Sales History, Invoices & Receipt Generation
  */
 
 async function renderSales() {
@@ -205,7 +205,7 @@ async function showReceiptModal(saleId) {
 
         <div style="text-align: center; font-size: 0.75rem; margin-top: 10px;">
           Thank you for choosing ${sale.business_name}!<br>
-          <em>Powered by BizFlow</em>
+          <em>Powered by BizBook</em>
         </div>
       </div>
     `;

@@ -1,5 +1,5 @@
-/**
- * BizFlow Products, Categories, and Inventory Stock Adjustment
+﻿/**
+ * BizBook Products, Categories, and Inventory Stock Adjustment
  */
 
 let allProductsList = [];

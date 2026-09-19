@@ -1,5 +1,5 @@
-/**
- * BizFlow Global State
+﻿/**
+ * BizBook Global State
  */
 
 const State = {
