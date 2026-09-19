@@ -3,8 +3,11 @@ const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
 
-const dbPath = process.env.DATABASE_PATH || './data/bizflow.db';
-const resolvedPath = path.resolve(process.cwd(), dbPath);
+const isVercel = Boolean(process.env.VERCEL);
+const dbPath = isVercel
+  ? path.join('/tmp', 'bizflow.db')
+  : (process.env.DATABASE_PATH || './data/bizflow.db');
+const resolvedPath = path.isAbsolute(dbPath) ? dbPath : path.resolve(process.cwd(), dbPath);
 const dir = path.dirname(resolvedPath);
 
 if (!fs.existsSync(dir)) {

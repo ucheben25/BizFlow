@@ -16,6 +16,16 @@ const PORT = process.env.PORT || 5000;
 // Initialize relational database schema
 runMigrations();
 
+// Auto-seed demo data on Vercel preview environments for instant evaluation
+if (process.env.VERCEL) {
+  try {
+    const { seedDemoData } = require('./database/seedDemo');
+    seedDemoData();
+  } catch (err) {
+    console.warn('[Vercel Seed Warning]', err.message);
+  }
+}
+
 // Security Middlewares
 app.use(helmet({
   contentSecurityPolicy: false // Allows self-hosted modern frontend SPA assets
