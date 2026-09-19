@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BizBook Main Application Entry Point
  * Routing, Lifecycle, State Subscriptions & Route Dispatcher
  * "Run your business. Know your numbers."
@@ -38,8 +38,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.hash = '#login';
   });
 
-  // Listen for browser navigation / hashchange
+  // Listen for browser navigation / hashchange and popstate
   window.addEventListener('hashchange', () => {
+    handleRoute();
+  });
+  window.addEventListener('popstate', () => {
     handleRoute();
   });
 
@@ -80,12 +83,23 @@ async function bootstrapAuthState() {
  * Central Router
  */
 async function handleRoute() {
-  const rawHash = window.location.hash || '#home';
-  const cleanHash = rawHash.startsWith('#') ? rawHash.slice(1) : rawHash;
+  // Determine active route: Check hash first, then pathname
+  let cleanRoute = '';
+  if (window.location.hash && window.location.hash !== '#' && window.location.hash !== '#!') {
+    cleanRoute = window.location.hash.replace(/^#\/?/, '');
+  } else {
+    cleanRoute = window.location.pathname.replace(/^\/+|\/+$/g, '');
+  }
 
-  // 1. Authenticated App Routes: #app/<view>
-  if (cleanHash.startsWith('app/')) {
-    let view = cleanHash.split('/')[1] || 'dashboard';
+  if (!cleanRoute) cleanRoute = 'home';
+
+  // Normalize route aliases
+  if (cleanRoute === 'sign-in') cleanRoute = 'login';
+  if (cleanRoute === 'sign-up') cleanRoute = 'register';
+
+  // 1. Authenticated App Routes: #app/<view> or app/<view>
+  if (cleanRoute.startsWith('app/') || cleanRoute === 'app') {
+    let view = cleanRoute.split('/')[1] || 'dashboard';
 
     const token = API.getToken();
     if (!token) {
@@ -146,20 +160,20 @@ async function handleRoute() {
     return;
   }
 
-  // 2. Authentication Pages: #login, #register
-  if (cleanHash === 'login' || cleanHash === 'register') {
+  // 2. Authentication Pages: #login, #register, /sign-in, /sign-up
+  if (cleanRoute === 'login' || cleanRoute === 'register') {
     if (API.getToken() && State.user && State.businesses?.length > 0) {
       window.location.hash = '#app/dashboard';
       return;
     }
-    authMode = cleanHash;
+    authMode = cleanRoute;
     renderAuthScreen();
     window.scrollTo(0, 0);
     return;
   }
 
   // 3. Public Marketing Pages
-  switch (cleanHash) {
+  switch (cleanRoute) {
     case '':
     case 'home':
       renderPublicHomePage();

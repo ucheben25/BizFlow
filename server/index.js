@@ -6,24 +6,57 @@ const morgan = require('morgan');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 
+const { validateEnvironment } = require('./config/env');
+const { initializeDatabase } = require('./config/database');
 const { runMigrations } = require('./database/migrations');
 const apiRoutes = require('./routes/api');
 const errorHandler = require('./middleware/errorHandler');
 
+// Validate environment variables on startup
+validateEnvironment();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Initialize relational database schema
-runMigrations();
+let isDatabaseReady = false;
+let dbInitPromise = null;
 
-// Auto-seed demo data on Vercel preview environments for instant evaluation
-if (process.env.VERCEL) {
-  try {
-    const { seedDemoData } = require('./database/seedDemo');
-    seedDemoData();
-  } catch (err) {
-    console.warn('[Vercel Seed Warning]', err.message);
-  }
+/**
+ * Ensures the database driver is loaded, schema migrations are applied,
+ * and preview seed data is created if running in ephemeral Vercel environments.
+ */
+async function ensureDatabaseReady() {
+  if (isDatabaseReady) return;
+  if (dbInitPromise) return dbInitPromise;
+
+  dbInitPromise = (async () => {
+    // 1. Initialize driver (native better-sqlite3 or fallback WebAssembly sql.js)
+    await initializeDatabase();
+
+    // 2. Initialize relational database schema
+    runMigrations();
+
+    // 3. Auto-seed demo data on Vercel preview environments for instant evaluation
+    if (process.env.VERCEL) {
+      try {
+        const { seedDemoData } = require('./database/seedDemo');
+        seedDemoData();
+      } catch (err) {
+        console.warn('[Vercel Seed Diagnostic]', err.message);
+      }
+    }
+
+    isDatabaseReady = true;
+  })();
+
+  return dbInitPromise;
+}
+
+// Immediate eager initialization for persistent servers
+if (process.env.NODE_ENV !== 'test') {
+  ensureDatabaseReady().catch(err => {
+    console.error('[Startup Database Notice]', err.message);
+  });
 }
 
 // Security Middlewares
@@ -31,7 +64,9 @@ app.use(helmet({
   contentSecurityPolicy: false // Allows self-hosted modern frontend SPA assets
 }));
 app.use(cors());
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('dev'));
+}
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -43,10 +78,24 @@ const authLimiter = rateLimit({
 });
 app.use('/api/auth', authLimiter);
 
+// Middleware: Ensure database is initialized before any API request executes
+app.use('/api', async (req, res, next) => {
+  try {
+    await ensureDatabaseReady();
+    next();
+  } catch (err) {
+    console.error('[Database Invocation Failure]', err);
+    return res.status(500).json({
+      success: false,
+      error: 'Database initialization failed. Please check server logs for diagnostic details.'
+    });
+  }
+});
+
 // API Routes
 app.use('/api', apiRoutes);
 
-// Serve Frontend Static Assets
+// Serve Frontend Static Assets for local Express environments
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Fallback to SPA index.html for unknown client routes
@@ -57,8 +106,8 @@ app.get('*', (req, res) => {
 // Central Error Handler
 app.use(errorHandler);
 
-// Start server
-if (process.env.NODE_ENV !== 'test') {
+// Only bind and listen on TCP port when NOT running inside Vercel serverless functions
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`====================================================`);
     console.log(` BizBook Server running on http://localhost:${PORT}`);
