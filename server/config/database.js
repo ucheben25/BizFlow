@@ -227,5 +227,6 @@ const dbProxy = new Proxy({}, {
 
 dbProxy.initializeDatabase = initializeDatabase;
 dbProxy.isReady = () => isReady;
+dbProxy.getDb = () => dbProxy;
 
 module.exports = dbProxy;

@@ -30,7 +30,7 @@ function renderAuthScreen() {
         <div style="margin-top: 24px; padding: 12px; background: #F8FAFC; border: 1px dashed var(--border-color); border-radius: 8px; text-align: center;">
           <div style="font-size: 0.78rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 4px;">Quick Demo Evaluation:</div>
           <button type="button" class="btn btn-secondary btn-sm" style="width: 100%; font-size: 0.78rem;" onclick="fillDemoCredentials()">
-            Login with Adeleke Provisions Demo Data
+            Quick Demo: Login as Admin (demo@bizbook.app)
           </button>
         </div>
       </div>
@@ -114,8 +114,8 @@ function fillDemoCredentials() {
     const emailEl = document.getElementById('auth-email');
     const pwEl = document.getElementById('auth-password');
     if (emailEl && pwEl) {
-      emailEl.value = 'demo@bizflow.ng';
-      pwEl.value = 'bizflow123';
+      emailEl.value = 'demo@bizbook.app';
+      pwEl.value = 'BizBookDemo@2026';
       submitLogin();
     }
   }, 50);

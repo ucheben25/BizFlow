@@ -18,6 +18,7 @@ function renderAppShell() {
   const user = State.user || { full_name: 'User', email: '' };
   const role = (biz.role || 'owner').toLowerCase();
   const isAdmin = ['owner', 'admin'].includes(role);
+  const isDemo = biz && (biz.name?.toLowerCase().includes('demo') || biz.id === 2);
 
   root.innerHTML = `
     <div class="app-container">
@@ -37,7 +38,10 @@ function renderAppShell() {
         <div class="business-switcher" onclick="showBusinessSwitcherModal()">
           <div class="biz-avatar">${biz.name.substring(0, 2).toUpperCase()}</div>
           <div class="biz-details">
-            <div class="biz-name">${biz.name}</div>
+            <div class="biz-name" style="display: flex; align-items: center; gap: 6px;">
+              <span>${biz.name}</span>
+              ${isDemo ? '<span class="badge" style="font-size: 0.65rem; font-weight: 700; background: #E0F2FE; color: #0369A1; padding: 2px 6px; border-radius: 9999px;">Demo</span>' : ''}
+            </div>
             <div class="biz-role">${biz.role ? (biz.role.charAt(0).toUpperCase() + biz.role.slice(1)) : 'Owner'}</div>
           </div>
           <svg style="width: 16px; height: 16px; stroke: #64748B;" fill="none" stroke-width="2" viewBox="0 0 24 24">
@@ -148,8 +152,12 @@ function renderAppShell() {
       <div class="main-wrapper">
         <!-- Desktop Topbar -->
         <header class="topbar">
-          <div class="topbar-left">
+          <div class="topbar-left" style="display: flex; align-items: center; gap: 12px;">
             <h1 class="page-title" id="page-title-heading">Dashboard</h1>
+            ${isDemo ? `<span style="font-size: 0.72rem; font-weight: 600; background: #E0F2FE; color: #0369A1; border: 1px solid #BAE6FD; padding: 3px 10px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 5px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #0284C7;"></span>
+              Evaluation Demo
+            </span>` : ''}
           </div>
           <div class="topbar-right">
             <button class="quick-action-btn" onclick="State.setView('pos')">
@@ -172,6 +180,7 @@ function renderAppShell() {
               </svg>
             </button>
             <div style="font-weight: 800; font-size: 1.15rem; color: #0A58CA;">BizBook</div>
+            ${isDemo ? '<span style="font-size: 0.65rem; font-weight: 700; background: #E0F2FE; color: #0369A1; padding: 2px 6px; border-radius: 9999px;">Demo</span>' : ''}
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
             <button class="btn btn-primary btn-sm" onclick="State.setView('pos')">+ Sale</button>

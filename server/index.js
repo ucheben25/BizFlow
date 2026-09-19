@@ -36,14 +36,16 @@ async function ensureDatabaseReady() {
     // 2. Initialize relational database schema
     runMigrations();
 
-    // 3. Auto-seed demo data on Vercel preview environments for instant evaluation
-    if (process.env.VERCEL) {
-      try {
+    // 3. Auto-seed demo data if demo user missing or on Vercel preview environments
+    try {
+      const db = require('./config/database');
+      const demoUser = db.prepare('SELECT id FROM users WHERE email = ?').get('demo@bizbook.app');
+      if (!demoUser || process.env.VERCEL) {
         const { seedDemoData } = require('./database/seedDemo');
         seedDemoData();
-      } catch (err) {
-        console.warn('[Vercel Seed Diagnostic]', err.message);
       }
+    } catch (err) {
+      console.warn('[Demo Seed Diagnostic]', err.message);
     }
 
     isDatabaseReady = true;

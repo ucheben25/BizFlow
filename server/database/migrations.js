@@ -429,6 +429,10 @@ function runMigrations() {
       ])
     );
 
+    // Migrate any stale plan names from old BizFlow branding to BizBook
+    db.prepare("UPDATE plans SET name = 'BizBook Basic' WHERE name LIKE '%Flow Basic%'").run();
+    db.prepare("UPDATE plans SET name = 'BizBook Business' WHERE name LIKE '%Flow Business%'").run();
+
     // Ensure any existing business without an active subscription gets a Business plan subscription
     const existingBusinesses = db.prepare(`
       SELECT b.id FROM businesses b
