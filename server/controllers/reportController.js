@@ -112,8 +112,43 @@ class ReportController {
         ORDER BY date ASC
       `).all(bizId);
 
+      const userRole = (req.business.role || 'staff').toLowerCase();
+      const hasFinancialAccess = ['owner', 'admin', 'manager', 'accountant'].includes(userRole);
+
+      if (!hasFinancialAccess) {
+        // Operational dashboard only for regular staff (Requirement 13 & 35)
+        return res.json({
+          success: true,
+          role: userRole,
+          hasFinancialAccess: false,
+          summary: {
+            today: {
+              salesCount: todaySales.count
+            },
+            month: {
+              salesCount: monthSales.count
+            },
+            inventory: {
+              totalUnits: inventory.totalStockUnits,
+              lowStockCount: inventory.lowStockCount,
+              outOfStockCount: inventory.outOfStockCount
+            }
+          },
+          recentSales: recentSales.map(s => ({
+            id: s.id,
+            invoice_number: s.invoice_number,
+            customer_name: s.customer_name,
+            payment_status: s.payment_status,
+            sale_date: s.sale_date
+          })),
+          lowStockProducts
+        });
+      }
+
       return res.json({
         success: true,
+        role: userRole,
+        hasFinancialAccess: true,
         summary: {
           today: {
             sales: todaySales.total,

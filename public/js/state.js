@@ -40,6 +40,11 @@ const State = {
 
   setView(viewName, params = {}) {
     this.currentView = viewName;
-    this.notify('view:changed', { view: viewName, params });
+    const targetHash = '#app/' + viewName;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+    } else {
+      this.notify('view:changed', { view: viewName, params });
+    }
   }
 };

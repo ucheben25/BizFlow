@@ -309,23 +309,77 @@ function renderOnboardingStepContent() {
     `;
   } else if (onboardingStep === 3) {
     return `
-      <div style="text-align: center; padding: 20px 0;">
-        <div style="width: 54px; height: 54px; background: var(--color-success-bg); color: var(--color-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
-          <svg style="width: 28px; height: 28px;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div style="text-align: center; padding: 10px 0;">
+        <div style="width: 50px; height: 50px; background: var(--color-success-bg); color: var(--color-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+          <svg style="width: 26px; height: 26px;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
-        <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 8px;">
-          Your Business is Ready!
+        <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 6px;">
+          Select Your Subscription Plan
         </h2>
-        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 24px;">
-          We have initialized <strong>${onboardingData.businessName}</strong> with full double-entry accounting, default categories, and inventory tracking.
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">
+          Your workspace for <strong>${onboardingData.businessName}</strong> is prepared. Select your monthly tier:
         </p>
 
-        <button class="btn btn-primary btn-block" style="padding: 12px;" onclick="finishOnboarding()">
-          Open Dashboard & Start Selling
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; text-align: left;">
+          <!-- Basic Plan Option -->
+          <div id="ob-plan-basic" style="padding: 16px; border: 2px solid ${onboardingData.selectedPlan === 'basic' ? 'var(--blue-primary)' : 'var(--border-color)'}; background: ${onboardingData.selectedPlan === 'basic' ? 'var(--blue-subtle)' : '#FFFFFF'}; border-radius: 8px; cursor: pointer;"
+               onclick="selectOnboardingPlan('basic')">
+            <div style="font-weight: 800; color: var(--navy-dark); font-size: 0.95rem;">BizFlow Basic</div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: var(--blue-primary); margin: 4px 0;">₦5,000 <span style="font-size: 0.72rem; color: #64748B; font-weight: 500;">/mo</span></div>
+            <div style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">Max 2 Active Users (Owner + 1 staff)</div>
+            <div style="font-size: 0.72rem; color: var(--text-secondary);">✓ POS & Receipts<br>✓ Inventory & Debtors<br>✓ Standard Reports</div>
+          </div>
+
+          <!-- Business Plan Option -->
+          <div id="ob-plan-business" style="padding: 16px; border: 2px solid ${onboardingData.selectedPlan !== 'basic' ? 'var(--blue-primary)' : 'var(--border-color)'}; background: ${onboardingData.selectedPlan !== 'basic' ? 'var(--blue-subtle)' : '#FFFFFF'}; border-radius: 8px; cursor: pointer;"
+               onclick="selectOnboardingPlan('business')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-weight: 800; color: var(--navy-dark); font-size: 0.95rem;">BizFlow Business</div>
+              <span class="badge badge-success" style="font-size: 0.65rem;">Popular</span>
+            </div>
+            <div style="font-size: 1.15rem; font-weight: 800; color: var(--blue-primary); margin: 4px 0;">₦10,000 <span style="font-size: 0.72rem; color: #64748B; font-weight: 500;">/mo</span></div>
+            <div style="font-size: 0.75rem; color: #64748B; margin-bottom: 8px;">Max 5 Active Users (Owner + 4 staff)</div>
+            <div style="font-size: 0.72rem; color: var(--text-secondary);">✓ Everything in Basic<br>✓ Full Double-Entry P&L<br>✓ Staff & Payroll Engine</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block" style="padding: 12px; font-size: 0.95rem;" onclick="finishOnboardingWithPlan()">
+          Confirm & Open Workspace &rarr;
         </button>
       </div>
     `;
   }
+}
+
+function selectOnboardingPlan(planCode) {
+  onboardingData.selectedPlan = planCode;
+  const basicCard = document.getElementById('ob-plan-basic');
+  const bizCard = document.getElementById('ob-plan-business');
+  if (basicCard && bizCard) {
+    if (planCode === 'basic') {
+      basicCard.style.borderColor = 'var(--blue-primary)';
+      basicCard.style.background = 'var(--blue-subtle)';
+      bizCard.style.borderColor = 'var(--border-color)';
+      bizCard.style.background = '#FFFFFF';
+    } else {
+      bizCard.style.borderColor = 'var(--blue-primary)';
+      bizCard.style.background = 'var(--blue-subtle)';
+      basicCard.style.borderColor = 'var(--border-color)';
+      basicCard.style.background = '#FFFFFF';
+    }
+  }
+}
+
+async function finishOnboardingWithPlan() {
+  // If user selected basic plan, downgrade subscription record accordingly
+  if (onboardingData.selectedPlan === 'basic' && State.currentBusiness) {
+    try {
+      await API.post('/subscriptions/upgrade', { plan_code: 'basic' });
+    } catch (e) {
+      console.warn('Could not switch plan at onboarding:', e.message);
+    }
+  }
+  finishOnboarding();
 }
 
 async function nextOnboardingStep() {

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "node --watch server/index.js",
-    "test": "node tests/accounting.test.js && node tests/security.test.js && node tests/api.test.js",
+    "test": "node tests/accounting.test.js && node tests/security.test.js && node tests/api.test.js && node tests/payroll.test.js && node tests/subscription_and_rbac.test.js",
     "seed": "node server/database/seedDemo.js"
   },
   "keywords": [

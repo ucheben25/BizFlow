@@ -73,6 +73,49 @@ async function runApiTests() {
     const bizId = bizData.business.id;
     console.log(`✔ Business "${bizData.business.name}" created with ID ${bizId}.`);
 
+    // 3b. Verify Subscription Gating & Payment Verification Flow (Requirements 9 & 10)
+    console.log('\n--- 3b. Testing Subscription Gating & Payment Verification ---');
+    const blockedRes = await fetch(`${baseUrl}/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'x-business-id': String(bizId)
+      },
+      body: JSON.stringify({ name: 'Blocked Item', cost_price: 10, selling_price: 20 })
+    });
+    assert.strictEqual(blockedRes.status, 402, 'Unpaid subscription should be blocked with 402');
+    console.log('✔ Unpaid business successfully blocked with 402 Payment Required.');
+
+    // Initialize checkout for Business Plan (Plan ID 2)
+    const initRes = await fetch(`${baseUrl}/subscriptions/initialize`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'x-business-id': String(bizId)
+      },
+      body: JSON.stringify({ plan_id: 2 })
+    });
+    const initData = await initRes.json();
+    assert.strictEqual(initRes.status, 200, 'Subscription initialization should return 200');
+    assert.ok(initData.reference, 'Should have payment reference');
+
+    // Verify payment with reference
+    const verifyRes = await fetch(`${baseUrl}/subscriptions/verify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'x-business-id': String(bizId)
+      },
+      body: JSON.stringify({ reference: initData.reference })
+    });
+    const verifyData = await verifyRes.json();
+    assert.strictEqual(verifyRes.status, 200, 'Subscription verification should return 200');
+    assert.strictEqual(verifyData.subscription.status, 'active', 'Subscription should now be active');
+    console.log(`✔ Subscription verified & active for ${verifyData.subscription.planName} (max ${verifyData.subscription.maxUsers} users).`);
+
     // 4. Create Product with Opening Stock
     console.log('\n--- 4. Testing Product Creation with Opening Stock ---');
     const prodRes = await fetch(`${baseUrl}/products`, {

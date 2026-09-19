@@ -276,6 +276,93 @@ function runMigrations() {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );`,
 
+    // 19. Plans (SaaS Subscriptions)
+    `CREATE TABLE IF NOT EXISTS plans (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL UNIQUE,
+      slug TEXT NOT NULL UNIQUE,
+      price REAL NOT NULL,
+      currency TEXT DEFAULT 'NGN',
+      billing_interval TEXT DEFAULT 'monthly',
+      max_users INTEGER NOT NULL,
+      description TEXT,
+      features TEXT,
+      status TEXT DEFAULT 'active',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+
+    // 20. Subscriptions
+    `CREATE TABLE IF NOT EXISTS subscriptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      business_id INTEGER NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+      plan_id INTEGER NOT NULL REFERENCES plans(id),
+      status TEXT NOT NULL CHECK (status IN ('pending', 'active', 'failed', 'cancelled', 'expired', 'past_due')),
+      amount REAL NOT NULL,
+      currency TEXT DEFAULT 'NGN',
+      max_users INTEGER NOT NULL,
+      billing_interval TEXT DEFAULT 'monthly',
+      provider TEXT DEFAULT 'paystack',
+      provider_reference TEXT,
+      started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      current_period_start DATETIME DEFAULT CURRENT_TIMESTAMP,
+      current_period_end DATETIME,
+      cancelled_at DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+
+    // 21. Staff
+    `CREATE TABLE IF NOT EXISTS staff (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      business_id INTEGER NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+      employee_id TEXT,
+      full_name TEXT NOT NULL,
+      email TEXT,
+      phone TEXT,
+      position TEXT NOT NULL,
+      department TEXT,
+      employment_date DATE,
+      employment_status TEXT DEFAULT 'active' CHECK (employment_status IN ('active', 'on_leave', 'terminated', 'archived')),
+      basic_salary REAL NOT NULL DEFAULT 0.0,
+      notes TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+
+    // 22. Salary Records (Payroll)
+    `CREATE TABLE IF NOT EXISTS salary_records (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      business_id INTEGER NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+      staff_id INTEGER NOT NULL REFERENCES staff(id) ON DELETE CASCADE,
+      pay_period TEXT NOT NULL,
+      basic_salary REAL NOT NULL,
+      allowances REAL DEFAULT 0.0,
+      deductions REAL DEFAULT 0.0,
+      net_salary REAL NOT NULL,
+      payment_status TEXT NOT NULL DEFAULT 'pending' CHECK (payment_status IN ('pending', 'paid', 'cancelled')),
+      payment_date DATETIME,
+      payment_method TEXT CHECK (payment_method IN ('cash', 'bank_transfer', 'cheque', 'pos', 'other')),
+      payment_reference TEXT,
+      notes TEXT,
+      created_by INTEGER REFERENCES users(id),
+      journal_entry_id INTEGER REFERENCES journal_entries(id) ON DELETE SET NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+
+    // 23. Public Website Contact Submissions
+    `CREATE TABLE IF NOT EXISTS contact_submissions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      subject TEXT,
+      message TEXT NOT NULL,
+      status TEXT DEFAULT 'new',
+      ip_address TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+
     // Performance Indexes
     `CREATE INDEX IF NOT EXISTS idx_products_business ON products(business_id);`,
     `CREATE INDEX IF NOT EXISTS idx_inventory_business_product ON inventory_transactions(business_id, product_id);`,
@@ -284,12 +371,77 @@ function runMigrations() {
     `CREATE INDEX IF NOT EXISTS idx_expenses_business ON expenses(business_id, expense_date);`,
     `CREATE INDEX IF NOT EXISTS idx_journal_entries_business ON journal_entries(business_id, entry_date);`,
     `CREATE INDEX IF NOT EXISTS idx_journal_lines_entry ON journal_lines(journal_entry_id);`,
-    `CREATE INDEX IF NOT EXISTS idx_audit_logs_business ON audit_logs(business_id, created_at);`
+    `CREATE INDEX IF NOT EXISTS idx_audit_logs_business ON audit_logs(business_id, created_at);`,
+    `CREATE INDEX IF NOT EXISTS idx_subscriptions_business ON subscriptions(business_id);`,
+    `CREATE INDEX IF NOT EXISTS idx_staff_business ON staff(business_id);`,
+    `CREATE INDEX IF NOT EXISTS idx_salary_records_business ON salary_records(business_id, pay_period);`,
+    `CREATE INDEX IF NOT EXISTS idx_salary_records_staff ON salary_records(staff_id);`
   ];
 
   db.transaction(() => {
     for (const sql of migrationStatements) {
       db.prepare(sql).run();
+    }
+
+    // Seed default subscription plans (Requirement 8 & 11)
+    const insertPlan = db.prepare(`
+      INSERT OR IGNORE INTO plans (id, name, slug, price, currency, billing_interval, max_users, description, features, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')
+    `);
+
+    insertPlan.run(
+      1,
+      'BizFlow Basic',
+      'basic',
+      5000,
+      'NGN',
+      'monthly',
+      2,
+      'Essential business management for small shops, single branches, and small teams.',
+      JSON.stringify([
+        'Up to 2 active users (Owner + 1 staff)',
+        'POS & Sales Invoicing',
+        'Real-time Inventory Tracking',
+        'Customer Debtors & Supplier Creditors',
+        'Expense Tracking',
+        'Basic Financial Reports'
+      ])
+    );
+
+    insertPlan.run(
+      2,
+      'BizFlow Business',
+      'business',
+      10000,
+      'NGN',
+      'monthly',
+      5,
+      'Comprehensive enterprise financial management for growing retail, wholesale, and multi-staff businesses.',
+      JSON.stringify([
+        'Up to 5 active users (Owner + 4 staff)',
+        'Everything in Basic Plan',
+        'Full Double-Entry Accounting Engine',
+        'Profit & Loss, Balance Sheet & Cash Flow',
+        'Complete Staff & Salary Payroll Engine',
+        'Automatic Salary Expense Journal Integration',
+        'AI Business Insights & Real-time Assistant',
+        'System Audit Trail & Access Logs'
+      ])
+    );
+
+    // Ensure any existing business without an active subscription gets a Business plan subscription
+    const existingBusinesses = db.prepare(`
+      SELECT b.id FROM businesses b
+      LEFT JOIN subscriptions s ON b.id = s.business_id AND s.status = 'active'
+      WHERE s.id IS NULL
+    `).all();
+
+    for (const b of existingBusinesses) {
+      db.prepare(`
+        INSERT INTO subscriptions (
+          business_id, plan_id, status, amount, currency, max_users, billing_interval, provider, provider_reference, started_at, current_period_start, current_period_end
+        ) VALUES (?, 2, 'active', 10000, 'NGN', 5, 'monthly', 'system_seed', 'SEED-INITIAL-' || ?, datetime('now'), datetime('now'), datetime('now', '+30 days'))
+      `).run(b.id, b.id);
     }
   })();
 

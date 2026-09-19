@@ -149,7 +149,7 @@ class AccountingService {
       db.transaction(executeTransaction)();
     }
 
-    return { entryId, entryNumber: entryNum, totalAmount: totalDebit };
+    return { id: entryId, entryId, entryNumber: entryNum, totalAmount: totalDebit };
   }
 
   /**
@@ -310,6 +310,8 @@ class AccountingService {
       accounts,
       sumDebit: Math.round(sumDebit * 100) / 100,
       sumCredit: Math.round(sumCredit * 100) / 100,
+      totalDebit: Math.round(sumDebit * 100) / 100,
+      totalCredit: Math.round(sumCredit * 100) / 100,
       isBalanced: Math.abs(sumDebit - sumCredit) < 0.01
     };
   }

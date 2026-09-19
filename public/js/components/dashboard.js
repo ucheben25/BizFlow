@@ -19,6 +19,160 @@ async function renderDashboard() {
     const { summary, recentSales, lowStockProducts, salesTrend } = data;
     const cur = (State.currentBusiness && State.currentBusiness.currency_symbol) || '₦';
 
+    const hasFinancialAccess = summary.hasFinancialAccess !== false;
+
+    if (!hasFinancialAccess) {
+      // OPERATIONAL DASHBOARD (For cashiers and ordinary staff - Zero profit/financial figures)
+      container.innerHTML = `
+        <!-- Staff Operational Banner -->
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; background: #FFFFFF; padding: 16px 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
+          <div>
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-dark);">Counter Operations & Orders</h2>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Front-desk order processing and stock lookup workspace</p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" onclick="State.setView('pos')">
+              <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              Open POS Register
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="State.setView('sales')">View Invoices</button>
+            <button class="btn btn-secondary btn-sm" onclick="State.setView('products')">Product Lookup</button>
+          </div>
+        </div>
+
+        <!-- Operational KPI Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Today's Transactions</span>
+              <div class="kpi-icon blue">
+                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+              </div>
+            </div>
+            <div class="kpi-value">${summary.today.salesCount}</div>
+            <div class="kpi-meta"><span>Completed counter checkouts today</span></div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Monthly Orders</span>
+              <div class="kpi-icon green">
+                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
+              </div>
+            </div>
+            <div class="kpi-value">${summary.month.salesCount}</div>
+            <div class="kpi-meta"><span>Total customer orders this month</span></div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Stock Units on Shelf</span>
+              <div class="kpi-icon blue">
+                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              </div>
+            </div>
+            <div class="kpi-value">${summary.inventory.totalUnits}</div>
+            <div class="kpi-meta"><span>Units across catalog products</span></div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Low Stock Alerts</span>
+              <div class="kpi-icon ${summary.inventory.lowStockCount > 0 ? 'red' : 'green'}">
+                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              </div>
+            </div>
+            <div class="kpi-value" style="color: ${summary.inventory.lowStockCount > 0 ? 'var(--color-danger)' : 'var(--color-success)'};">
+              ${summary.inventory.lowStockCount}
+            </div>
+            <div class="kpi-meta"><span>Items below safety reorder level</span></div>
+          </div>
+        </div>
+
+        <!-- Two-Column: Low Stock List & Recent Sales -->
+        <div style="display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 24px;">
+          ${lowStockProducts.length > 0 ? `
+            <div class="card" style="margin-bottom: 0;">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Stock Attention Required</div>
+                  <div class="card-subtitle">${summary.inventory.lowStockCount} items need replenishment</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="State.setView('products')">View Catalog</button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                ${lowStockProducts.map(p => `
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--color-warning-bg); border-radius: var(--radius-md); border: 1px solid #FDE68A;">
+                    <div>
+                      <div style="font-weight: 750; font-size: 0.9rem; color: #92400E;">${p.name}</div>
+                      <div style="font-size: 0.78rem; color: #B45309;">Remaining: ${p.current_stock} ${p.unit} (Alert set at ${p.reorder_level})</div>
+                    </div>
+                    <span class="badge badge-warning">Low Stock</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Recent Transactions -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Recent Transactions</div>
+                <div class="card-subtitle">Latest counter sales & orders</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="State.setView('sales')">View All Sales</button>
+            </div>
+
+            ${recentSales.length === 0 ? `
+              <div class="empty-state">
+                <div class="empty-state-title">No transactions recorded yet</div>
+                <div class="empty-state-desc">Start processing sales at the Point of Sale register.</div>
+                <button class="btn btn-primary" onclick="State.setView('pos')">Open POS</button>
+              </div>
+            ` : `
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Invoice</th>
+                      <th>Customer</th>
+                      <th>Total Amount</th>
+                      <th>Payment Method</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${recentSales.map(s => `
+                      <tr>
+                        <td style="font-weight: 750; color: var(--blue-primary);">${s.invoice_number}</td>
+                        <td>${s.customer_name || 'Walk-in Customer'}</td>
+                        <td style="font-weight: 750;">${formatCurrency(s.total_amount, cur)}</td>
+                        <td style="text-transform: capitalize;">${s.payment_method.replace('_', ' ')}</td>
+                        <td>
+                          <span class="badge ${s.payment_status === 'paid' ? 'badge-success' : (s.payment_status === 'partial' ? 'badge-warning' : 'badge-danger')}">
+                            ${s.payment_status}
+                          </span>
+                        </td>
+                        <td>${formatDate(s.sale_date)}</td>
+                        <td>
+                          <button class="btn btn-secondary btn-sm" onclick="showReceiptModal(${s.id})">Receipt</button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // FULL EXECUTIVE FINANCIAL DASHBOARD (For Owner and Admin)
     container.innerHTML = `
       <!-- Quick Action Banner -->
       <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; background: #FFFFFF; padding: 16px 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color);">

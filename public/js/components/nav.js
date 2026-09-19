@@ -16,6 +16,8 @@ function renderAppShell() {
   const root = document.getElementById('app-root');
   const biz = State.currentBusiness || { name: 'BizFlow Store', role: 'owner', currency_symbol: '₦' };
   const user = State.user || { full_name: 'User', email: '' };
+  const role = (biz.role || 'owner').toLowerCase();
+  const isAdmin = ['owner', 'admin'].includes(role);
 
   root.innerHTML = `
     <div class="app-container">
@@ -36,7 +38,7 @@ function renderAppShell() {
           <div class="biz-avatar">${biz.name.substring(0, 2).toUpperCase()}</div>
           <div class="biz-details">
             <div class="biz-name">${biz.name}</div>
-            <div class="biz-role">${biz.role || 'Owner'}</div>
+            <div class="biz-role">${biz.role ? (biz.role.charAt(0).toUpperCase() + biz.role.slice(1)) : 'Owner'}</div>
           </div>
           <svg style="width: 16px; height: 16px; stroke: #64748B;" fill="none" stroke-width="2" viewBox="0 0 24 24">
             <path d="M6 9l6 6 6-6"></path>
@@ -76,6 +78,7 @@ function renderAppShell() {
             <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
             Suppliers (Creditors)
           </div>
+          ${isAdmin ? `
           <div class="nav-item ${State.currentView === 'expenses' ? 'active' : ''}" onclick="State.setView('expenses')">
             <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
             Expense Tracking
@@ -84,15 +87,41 @@ function renderAppShell() {
             <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
             Financial Reports
           </div>
+          ` : ''}
 
-          <div class="nav-section-title">Intelligence & System</div>
+          ${isAdmin ? `
+          <div class="nav-section-title">People & Payroll</div>
+          <div class="nav-item ${State.currentView === 'staff' ? 'active' : ''}" onclick="State.setView('staff')">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Staff Directory
+          </div>
+          <div class="nav-item ${State.currentView === 'payroll' ? 'active' : ''}" onclick="State.setView('payroll')">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line><line x1="12" y1="8" x2="12" y2="16"></line></svg>
+            Payroll Management
+          </div>
+          ` : ''}
+
+          <div class="nav-section-title">System & Administration</div>
           <div class="nav-item ${State.currentView === 'ai' ? 'active' : ''}" onclick="State.setView('ai')">
             <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            AI Business Assistant
+            AI Assistant
+          </div>
+          ${isAdmin ? `
+          <div class="nav-item ${State.currentView === 'subscription' ? 'active' : ''}" onclick="State.setView('subscription')">
+            <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            Subscription & Billing
           </div>
           <div class="nav-item ${State.currentView === 'settings' ? 'active' : ''}" onclick="State.setView('settings')">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             Settings & Team
+          </div>
+          ` : ''}
+
+          <div style="margin-top: 16px; padding: 10px 14px; border-top: 1px solid var(--border-color);">
+            <a href="#home" style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--blue-primary); text-decoration: none; font-weight: 600;">
+              <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Public Website
+            </a>
           </div>
         </nav>
 
@@ -128,7 +157,7 @@ function renderAppShell() {
               New Sale
             </button>
             <button class="btn btn-secondary btn-sm" onclick="showAddProductModal()">+ Product</button>
-            <button class="btn btn-secondary btn-sm" onclick="showAddExpenseModal()">+ Expense</button>
+            ${isAdmin ? `<button class="btn btn-secondary btn-sm" onclick="showAddExpenseModal()">+ Expense</button>` : ''}
           </div>
         </header>
 
@@ -169,11 +198,18 @@ function renderAppShell() {
           <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
           Products
         </button>
+        ${isAdmin ? `
         <button class="mobile-nav-btn ${State.currentView === 'expenses' ? 'active' : ''}" onclick="State.setView('expenses')">
           <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
           Expenses
         </button>
-        <button class="mobile-nav-btn ${['reports', 'ai', 'settings', 'customers'].includes(State.currentView) ? 'active' : ''}" onclick="toggleMobileSidebar()">
+        ` : `
+        <button class="mobile-nav-btn ${State.currentView === 'sales' ? 'active' : ''}" onclick="State.setView('sales')">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          Invoices
+        </button>
+        `}
+        <button class="mobile-nav-btn" onclick="toggleMobileSidebar()">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
           More
         </button>

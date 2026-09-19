@@ -1,6 +1,7 @@
 const db = require('../config/database');
 const { seedBusinessDefaults } = require('../database/seedAccounts');
 const AuditService = require('../services/auditService');
+const SubscriptionService = require('../services/subscriptionService');
 
 class BusinessController {
   static createBusiness(req, res) {
@@ -58,6 +59,19 @@ class BusinessController {
         // Seed Chart of Accounts, default categories, and walk-in customer
         seedBusinessDefaults(businessId);
 
+        // Create initial subscription for business (Requirement 9 & 11)
+        const planId = req.body.plan_id || 1;
+        const plan = db.prepare('SELECT * FROM plans WHERE id = ?').get(planId) || db.prepare('SELECT * FROM plans LIMIT 1').get();
+        const subStatus = req.body.subscription_status || 'pending';
+        if (plan) {
+          db.prepare(`
+            INSERT INTO subscriptions (
+              business_id, plan_id, status, amount, currency, max_users, billing_interval,
+              provider, provider_reference, started_at, current_period_start, current_period_end
+            ) VALUES (?, ?, ?, ?, ?, ?, 'monthly', 'paystack', ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, datetime('now', '+30 days'))
+          `).run(businessId, plan.id, subStatus, plan.price, plan.currency, plan.max_users, `INIT-${Date.now()}`);
+        }
+
         // Audit log
         AuditService.log({
           businessId,
@@ -71,11 +85,13 @@ class BusinessController {
       })();
 
       const created = db.prepare('SELECT * FROM businesses WHERE id = ?').get(businessId);
+      const subscription = SubscriptionService.getCurrentSubscription(businessId);
 
       return res.status(201).json({
         success: true,
         message: 'Business created and initialized successfully.',
-        business: created
+        business: created,
+        subscription
       });
     } catch (err) {
       return res.status(500).json({ success: false, error: 'Failed to create business: ' + err.message });
@@ -85,9 +101,14 @@ class BusinessController {
   static getBusinesses(req, res) {
     try {
       const businesses = db.prepare(`
-        SELECT b.*, bm.role as user_role
+        SELECT b.*, bm.role as user_role,
+               COALESCE(s.status, 'none') as subscription_status,
+               s.plan_id,
+               p.name as plan_name
         FROM business_members bm
         JOIN businesses b ON bm.business_id = b.id
+        LEFT JOIN subscriptions s ON b.id = s.business_id
+        LEFT JOIN plans p ON s.plan_id = p.id
         WHERE bm.user_id = ?
         ORDER BY b.id ASC
       `).all(req.user.id);
@@ -101,6 +122,7 @@ class BusinessController {
   static getBusinessDetails(req, res) {
     try {
       const business = db.prepare('SELECT * FROM businesses WHERE id = ?').get(req.business.id);
+      const subscription = SubscriptionService.getCurrentSubscription(req.business.id);
       const members = db.prepare(`
         SELECT bm.id, bm.role, bm.created_at, u.id as user_id, u.full_name, u.email, u.phone
         FROM business_members bm
@@ -109,7 +131,7 @@ class BusinessController {
         ORDER BY bm.id ASC
       `).all(req.business.id);
 
-      return res.json({ success: true, business, members });
+      return res.json({ success: true, business, subscription, members });
     } catch (err) {
       return res.status(500).json({ success: false, error: 'Failed to fetch business details: ' + err.message });
     }
@@ -198,6 +220,18 @@ class BusinessController {
       const existingMember = db.prepare('SELECT id FROM business_members WHERE business_id = ? AND user_id = ?').get(req.business.id, user.id);
       if (existingMember) {
         return res.status(409).json({ success: false, error: 'This user is already a member of this business.' });
+      }
+
+      // Enforce subscription plan seat limit (Requirement 32)
+      const limitCheck = SubscriptionService.checkMemberLimit(req.business.id);
+      if (!limitCheck.allowed) {
+        return res.status(403).json({
+          success: false,
+          error: limitCheck.message,
+          limitReached: true,
+          maxUsers: limitCheck.maxUsers,
+          memberCount: limitCheck.memberCount
+        });
       }
 
       db.prepare(`
