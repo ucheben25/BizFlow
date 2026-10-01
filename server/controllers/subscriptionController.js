@@ -1,3 +1,4 @@
+const db = require('../config/database');
 const SubscriptionService = require('../services/subscriptionService');
 
 class SubscriptionController {
@@ -59,6 +60,52 @@ class SubscriptionController {
       });
     } catch (err) {
       return res.status(400).json({ success: false, error: err.message });
+    }
+  }
+
+  static async upgrade(req, res) {
+    try {
+      const { plan_id, plan_code } = req.body;
+      let plan;
+      if (plan_id) {
+        plan = db.prepare('SELECT * FROM plans WHERE id = ?').get(plan_id);
+      } else if (plan_code) {
+        plan = db.prepare('SELECT * FROM plans WHERE LOWER(slug) = LOWER(?) OR LOWER(name) LIKE ?').get(plan_code, `%${plan_code}%`);
+      } else {
+        plan = db.prepare('SELECT * FROM plans ORDER BY id DESC LIMIT 1').get();
+      }
+
+      if (!plan) {
+        return res.status(404).json({ success: false, error: 'Plan not found.' });
+      }
+
+      // Update or insert subscription record
+      let sub = db.prepare('SELECT * FROM subscriptions WHERE business_id = ? ORDER BY id DESC LIMIT 1').get(req.business.id);
+      if (sub) {
+        db.prepare(`
+          UPDATE subscriptions
+          SET plan_id = ?, amount = ?, max_users = ?, status = 'active',
+              current_period_start = CURRENT_TIMESTAMP, current_period_end = datetime('now', '+30 days'),
+              updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `).run(plan.id, plan.price, plan.max_users, sub.id);
+      } else {
+        db.prepare(`
+          INSERT INTO subscriptions (
+            business_id, plan_id, status, amount, currency, max_users, billing_interval,
+            provider, provider_reference, started_at, current_period_start, current_period_end
+          ) VALUES (?, ?, 'active', ?, ?, ?, 'monthly', 'evaluation', ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, datetime('now', '+30 days'))
+        `).run(req.business.id, plan.id, plan.price, plan.currency, plan.max_users, `UPG-${Date.now()}`);
+      }
+
+      const updatedSub = SubscriptionService.getCurrentSubscription(req.business.id);
+      return res.json({
+        success: true,
+        message: `Plan updated to ${plan.name}.`,
+        subscription: updatedSub
+      });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: 'Failed to update plan: ' + err.message });
     }
   }
 

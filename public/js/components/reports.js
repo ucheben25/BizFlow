@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BizBook Financial & Operational Reports
  * Profit & Loss, Balance Sheet, Cash Flow, and CSV Exports
  */
@@ -132,7 +132,7 @@ async function loadActiveReportContent() {
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 0 auto;">
+          <div class="balance-sheet-grid">
             <!-- Assets Side -->
             <div>
               <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--navy-dark); text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 6px; margin-bottom: 12px;">

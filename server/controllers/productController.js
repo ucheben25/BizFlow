@@ -93,8 +93,36 @@ class ProductController {
         image_url
       } = req.body;
 
-      if (!name) {
+      if (!name || !name.trim()) {
         return res.status(400).json({ success: false, error: 'Product name is required.' });
+      }
+
+      if (cost_price === undefined || cost_price === null || cost_price === '' || isNaN(cost_price) || Number(cost_price) < 0) {
+        return res.status(400).json({ success: false, error: 'Cost price must be valid.' });
+      }
+
+      if (selling_price === undefined || selling_price === null || selling_price === '' || isNaN(selling_price) || Number(selling_price) < 0) {
+        return res.status(400).json({ success: false, error: 'Selling price must be valid.' });
+      }
+
+      if (opening_stock !== undefined && opening_stock !== null && opening_stock !== '' && (isNaN(opening_stock) || Number(opening_stock) < 0)) {
+        return res.status(400).json({ success: false, error: 'Stock quantity cannot be negative.' });
+      }
+
+      // Verify category existence if provided
+      if (category_id) {
+        const cat = db.prepare('SELECT id FROM categories WHERE id = ? AND business_id = ? AND is_active = 1').get(Number(category_id), req.business.id);
+        if (!cat) {
+          return res.status(400).json({ success: false, error: 'Category does not exist.' });
+        }
+      }
+
+      // Verify SKU uniqueness within business
+      if (sku && sku.trim()) {
+        const existingSku = db.prepare('SELECT id FROM products WHERE business_id = ? AND LOWER(sku) = LOWER(?) AND is_active = 1').get(req.business.id, sku.trim());
+        if (existingSku) {
+          return res.status(409).json({ success: false, error: 'SKU already exists.' });
+        }
       }
 
       const costPriceNum = Math.max(0, Number(cost_price) || 0);
@@ -196,6 +224,32 @@ class ProductController {
       const current = db.prepare('SELECT * FROM products WHERE id = ? AND business_id = ?').get(id, req.business.id);
       if (!current) {
         return res.status(404).json({ success: false, error: 'Product not found.' });
+      }
+
+      if (name !== undefined && (!name || !name.trim())) {
+        return res.status(400).json({ success: false, error: 'Product name is required.' });
+      }
+
+      if (cost_price !== undefined && (isNaN(cost_price) || Number(cost_price) < 0)) {
+        return res.status(400).json({ success: false, error: 'Cost price must be valid.' });
+      }
+
+      if (selling_price !== undefined && (isNaN(selling_price) || Number(selling_price) < 0)) {
+        return res.status(400).json({ success: false, error: 'Selling price must be valid.' });
+      }
+
+      if (category_id !== undefined && category_id !== null && category_id !== '') {
+        const cat = db.prepare('SELECT id FROM categories WHERE id = ? AND business_id = ? AND is_active = 1').get(Number(category_id), req.business.id);
+        if (!cat) {
+          return res.status(400).json({ success: false, error: 'Category does not exist.' });
+        }
+      }
+
+      if (sku !== undefined && sku && sku.trim()) {
+        const existingSku = db.prepare('SELECT id FROM products WHERE business_id = ? AND LOWER(sku) = LOWER(?) AND id != ? AND is_active = 1').get(req.business.id, sku.trim(), id);
+        if (existingSku) {
+          return res.status(409).json({ success: false, error: 'SKU already exists.' });
+        }
       }
 
       db.prepare(`
@@ -325,13 +379,20 @@ class ProductController {
   static createCategory(req, res) {
     try {
       const { name, description } = req.body;
-      if (!name) {
+      if (!name || !name.trim()) {
         return res.status(400).json({ success: false, error: 'Category name is required.' });
       }
 
-      const existing = db.prepare('SELECT id FROM categories WHERE business_id = ? AND LOWER(name) = LOWER(?)').get(req.business.id, name.trim());
+      const existing = db.prepare('SELECT id, is_active FROM categories WHERE business_id = ? AND LOWER(name) = LOWER(?)').get(req.business.id, name.trim());
       if (existing) {
-        return res.status(409).json({ success: false, error: 'Category already exists.' });
+        if (existing.is_active) {
+          return res.status(409).json({ success: false, error: 'Category already exists.' });
+        } else {
+          // Reactivate archived category with updated description
+          db.prepare('UPDATE categories SET is_active = 1, description = COALESCE(?, description) WHERE id = ?').run(description ? description.trim() : null, existing.id);
+          const reactivated = db.prepare('SELECT * FROM categories WHERE id = ?').get(existing.id);
+          return res.status(201).json({ success: true, message: 'Category created.', category: reactivated });
+        }
       }
 
       const resInsert = db.prepare(`
@@ -346,6 +407,68 @@ class ProductController {
       });
     } catch (err) {
       return res.status(500).json({ success: false, error: 'Failed to create category: ' + err.message });
+    }
+  }
+
+  static updateCategory(req, res) {
+    try {
+      const { id } = req.params;
+      const { name, description } = req.body;
+
+      if (!name || !name.trim()) {
+        return res.status(400).json({ success: false, error: 'Category name is required.' });
+      }
+
+      const current = db.prepare('SELECT id FROM categories WHERE id = ? AND business_id = ? AND is_active = 1').get(id, req.business.id);
+      if (!current) {
+        return res.status(404).json({ success: false, error: 'Category does not exist.' });
+      }
+
+      const duplicate = db.prepare('SELECT id FROM categories WHERE business_id = ? AND LOWER(name) = LOWER(?) AND id != ? AND is_active = 1')
+        .get(req.business.id, name.trim(), id);
+      if (duplicate) {
+        return res.status(409).json({ success: false, error: 'Category already exists.' });
+      }
+
+      db.prepare(`
+        UPDATE categories
+        SET name = ?, description = ?
+        WHERE id = ? AND business_id = ?
+      `).run(name.trim(), description !== undefined ? (description ? description.trim() : null) : null, id, req.business.id);
+
+      const updated = db.prepare('SELECT * FROM categories WHERE id = ?').get(id);
+      return res.json({ success: true, message: 'Category updated successfully.', category: updated });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: 'Failed to update category: ' + err.message });
+    }
+  }
+
+  static archiveCategory(req, res) {
+    try {
+      const { id } = req.params;
+      const current = db.prepare('SELECT id, name FROM categories WHERE id = ? AND business_id = ? AND is_active = 1').get(id, req.business.id);
+      if (!current) {
+        return res.status(404).json({ success: false, error: 'Category does not exist.' });
+      }
+
+      db.transaction(() => {
+        db.prepare('UPDATE categories SET is_active = 0 WHERE id = ? AND business_id = ?').run(id, req.business.id);
+        db.prepare('UPDATE products SET category_id = NULL WHERE category_id = ? AND business_id = ?').run(id, req.business.id);
+      })();
+
+      AuditService.log({
+        businessId: req.business.id,
+        userId: req.user.id,
+        action: 'ARCHIVE_CATEGORY',
+        entity: 'CATEGORY',
+        entityId: id,
+        oldValues: current,
+        ipAddress: req.ip
+      });
+
+      return res.json({ success: true, message: `Category "${current.name}" deleted successfully.` });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: 'Failed to delete category: ' + err.message });
     }
   }
 }

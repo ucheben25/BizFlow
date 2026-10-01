@@ -282,9 +282,11 @@ function updateNavActiveStates(view) {
   });
   if (activeMobileEl) activeMobileEl.classList.add('active');
 
-  // Close mobile sidebar if open
+  // Close mobile sidebar and backdrop if open
   const sidebar = document.getElementById('app-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
   if (sidebar && sidebar.classList.contains('mobile-open')) {
     sidebar.classList.remove('mobile-open');
+    if (backdrop) backdrop.classList.remove('active');
   }
 }

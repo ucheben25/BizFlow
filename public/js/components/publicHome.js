@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BizBook Public Landing Page (Homepage)
  * Sections 1 through 12
  */
@@ -76,7 +76,7 @@ function renderPublicHomePage() {
           </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px;">
           <div style="padding: 24px; background: var(--blue-subtle); border-radius: var(--radius-lg); border-left: 4px solid var(--blue-primary);">
             <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 8px;">No More Lost Receipts</h3>
             <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;">
@@ -240,7 +240,7 @@ function renderPublicHomePage() {
 
     <!-- SECTION 7: INVENTORY MANAGEMENT -->
     <section class="public-section bg-subtle">
-      <div class="section-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+      <div class="section-container feature-split-grid">
         <div>
           <div class="section-eyebrow">Never Run Out</div>
           <h2 class="section-heading" style="text-align: left;">Automated Inventory & Low-Stock Alerts</h2>
@@ -286,7 +286,7 @@ function renderPublicHomePage() {
 
     <!-- SECTION 8: PAYROLL ENGINE -->
     <section class="public-section">
-      <div class="section-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+      <div class="section-container feature-split-grid">
         <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-md);">
           <div style="font-weight: 800; color: var(--navy-dark); margin-bottom: 14px; font-size: 1.05rem;">Monthly Payroll Record</div>
           <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -351,7 +351,7 @@ function renderPublicHomePage() {
           </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 24px;">
           <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px;">
             <div style="font-weight: 800; font-size: 1.1rem; color: var(--navy-dark); margin-bottom: 8px;">Multi-Tenant Isolation</div>
             <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">

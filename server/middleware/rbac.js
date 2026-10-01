@@ -15,26 +15,33 @@ const ROLE_HIERARCHY = {
 /**
  * Requires the user to have at least one of the allowed roles
  */
-function requireRoles(...allowedRoles) {
+function requireRoles(...allowedRolesOrPerms) {
   return (req, res, next) => {
     if (!req.business || !req.business.role) {
       return res.status(403).json({ success: false, error: 'Forbidden: No business context established' });
     }
 
     const userRole = req.business.role.toLowerCase();
+    const permissions = Array.isArray(req.business.permissions) ? req.business.permissions : [];
 
     // Owner always has access
     if (userRole === 'owner') {
       return next();
     }
 
-    if (allowedRoles.includes(userRole)) {
+    // Role check
+    if (allowedRolesOrPerms.includes(userRole)) {
+      return next();
+    }
+
+    // Explicit permission checks (e.g. 'all', or matching allowed role/permission)
+    if (permissions.includes('all') || permissions.some(p => allowedRolesOrPerms.includes(p))) {
       return next();
     }
 
     return res.status(403).json({
       success: false,
-      error: `Forbidden: Action requires one of [${allowedRoles.join(', ')}] permissions. Current role: ${userRole}`
+      error: `Forbidden: Action requires one of [${allowedRolesOrPerms.join(', ')}] permissions. Current role: ${userRole}`
     });
   };
 }

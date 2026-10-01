@@ -22,16 +22,20 @@ function renderAppShell() {
 
   root.innerHTML = `
     <div class="app-container">
+      <!-- Mobile Sidebar Backdrop Overlay -->
+      <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
       <!-- Sidebar Navigation -->
       <aside class="sidebar" id="app-sidebar">
         <div class="sidebar-header">
-          <div class="brand-logo-container" onclick="State.setView('dashboard')" style="cursor: pointer;">
+          <div class="brand-logo-container" onclick="State.setView('dashboard'); toggleMobileSidebar(false);" style="cursor: pointer;">
             ${LOGO_SVG}
             <div class="brand-info">
               <span class="brand-name">BizBook</span>
               <span class="brand-tagline">Know your numbers</span>
             </div>
           </div>
+          <button class="sidebar-close-btn" onclick="toggleMobileSidebar(false)" title="Close menu" aria-label="Close menu">&times;</button>
         </div>
 
         <!-- Business Switcher -->
@@ -227,10 +231,18 @@ function renderAppShell() {
   `;
 }
 
-function toggleMobileSidebar() {
+function toggleMobileSidebar(force) {
   const sidebar = document.getElementById('app-sidebar');
-  if (sidebar) {
-    sidebar.classList.toggle('mobile-open');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (!sidebar) return;
+
+  const shouldOpen = typeof force === 'boolean' ? force : !sidebar.classList.contains('mobile-open');
+  if (shouldOpen) {
+    sidebar.classList.add('mobile-open');
+    if (backdrop) backdrop.classList.add('active');
+  } else {
+    sidebar.classList.remove('mobile-open');
+    if (backdrop) backdrop.classList.remove('active');
   }
 }
 

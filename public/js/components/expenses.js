@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BizBook Expense Management & Breakdown
  */
 
@@ -33,7 +33,7 @@ async function renderExpenses() {
     const cur = (State.currentBusiness && State.currentBusiness.currency_symbol) || '₦';
 
     container.innerHTML = `
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px;">
+      <div class="expenses-grid">
         <!-- Left: Expense Records -->
         <div class="card" style="margin-bottom: 0;">
           <div class="card-header">

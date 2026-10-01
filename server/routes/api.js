@@ -47,6 +47,7 @@ router.get('/subscriptions/plans', authenticate, SubscriptionController.getPlans
 router.get('/subscriptions/current', authenticate, requireBusiness, SubscriptionController.getCurrentSubscription);
 router.post('/subscriptions/initialize', authenticate, requireBusiness, requireRoles('owner', 'admin'), SubscriptionController.initializePayment);
 router.post('/subscriptions/verify', authenticate, requireBusiness, requireRoles('owner', 'admin'), SubscriptionController.verifyPayment);
+router.post('/subscriptions/upgrade', authenticate, requireBusiness, requireRoles('owner', 'admin'), SubscriptionController.upgrade);
 router.post('/subscriptions/cancel', authenticate, requireBusiness, requireRoles('owner', 'admin'), SubscriptionController.cancel);
 router.post('/subscriptions/webhook', SubscriptionController.webhook);
 
@@ -55,13 +56,15 @@ router.post('/subscriptions/webhook', SubscriptionController.webhook);
 // Products & Categories Routes
 router.get('/products', authenticate, requireBusiness, requireActiveSubscription, ProductController.getProducts);
 router.get('/products/:id', authenticate, requireBusiness, requireActiveSubscription, ProductController.getProductById);
-router.post('/products', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager'), ProductController.createProduct);
-router.put('/products/:id', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager'), ProductController.updateProduct);
-router.delete('/products/:id', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin'), ProductController.archiveProduct);
-router.post('/products/:id/adjust-stock', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager'), ProductController.adjustStock);
+router.post('/products', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager', 'manage_products', 'products'), ProductController.createProduct);
+router.put('/products/:id', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager', 'manage_products', 'products'), ProductController.updateProduct);
+router.delete('/products/:id', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manage_products'), ProductController.archiveProduct);
+router.post('/products/:id/adjust-stock', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager', 'manage_inventory', 'manage_products'), ProductController.adjustStock);
 
 router.get('/categories', authenticate, requireBusiness, requireActiveSubscription, ProductController.getCategories);
-router.post('/categories', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager'), ProductController.createCategory);
+router.post('/categories', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager', 'manage_categories', 'categories'), ProductController.createCategory);
+router.put('/categories/:id', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manager', 'manage_categories', 'categories'), ProductController.updateCategory);
+router.delete('/categories/:id', authenticate, requireBusiness, requireActiveSubscription, requireRoles('owner', 'admin', 'manage_categories'), ProductController.archiveCategory);
 
 // Sales Routes
 router.get('/sales', authenticate, requireBusiness, requireActiveSubscription, SalesController.getSales);

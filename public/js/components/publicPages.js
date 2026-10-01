@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BizBook Public Pages
  * About, Features, Pricing, Contact, Privacy, Terms, FAQ, 404
  */
@@ -338,7 +338,7 @@ function renderContactPage() {
           </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: start;">
+        <div class="contact-grid">
           <!-- Contact Info -->
           <div>
             <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 16px;">Office & Support</h3>
