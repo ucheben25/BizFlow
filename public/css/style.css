@@ -853,21 +853,25 @@ body.pos-mode-active .app-container {
   height: 100vh !important;
   max-height: 100vh !important;
   overflow: hidden !important;
+  display: flex !important;
 }
 
 body.pos-mode-active .main-wrapper {
   height: 100vh !important;
   max-height: 100vh !important;
+  min-height: unset !important; /* Override the default min-height: 100vh */
   overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
+  width: calc(100vw - 260px) !important; /* Explicit width: viewport minus fixed sidebar */
+  flex-shrink: 0 !important;
 }
 
 body.pos-mode-active .content-body {
-  flex: 1 !important;
+  flex: 1 1 0 !important;
   min-height: 0 !important;
-  height: calc(100vh - 70px) !important;
-  max-height: calc(100vh - 70px) !important;
+  height: calc(100vh - 64px) !important; /* Topbar is 64px, not 70px */
+  max-height: calc(100vh - 64px) !important;
   padding: 14px 20px !important;
   max-width: 100% !important;
   width: 100% !important;
@@ -883,11 +887,13 @@ body.pos-mode-active .content-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 380px;
   gap: 16px;
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
   height: 100%;
   max-height: 100%;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Left Column: Catalog & Products Section */
@@ -944,7 +950,7 @@ body.pos-mode-active .content-body {
   overflow-y: auto;
   overflow-x: hidden;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px;
   padding-right: 4px;
   padding-bottom: 12px;
@@ -1183,10 +1189,12 @@ body.pos-mode-active .content-body {
 @media (max-width: 768px) {
   body.pos-mode-active .main-wrapper {
     padding-bottom: 0 !important;
+    width: 100vw !important;        /* Override desktop's calc(100vw - 260px); sidebar hidden on mobile */
+    margin-left: 0 !important;
   }
   body.pos-mode-active .content-body {
-    height: calc(100vh - 56px - 60px) !important;
-    max-height: calc(100vh - 56px - 60px) !important;
+    height: calc(100vh - 60px - 64px) !important; /* mobile-header(60px) + mobile-nav-bar(64px) */
+    max-height: calc(100vh - 60px - 64px) !important;
     padding: 8px 10px !important;
   }
 
