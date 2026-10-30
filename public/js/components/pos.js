@@ -214,8 +214,6 @@ function renderPOSLayout() {
     </div>
   `;
 }
-  `;
-}
 
 function renderPOSProductCards(products) {
   const cur = (State.currentBusiness && State.currentBusiness.currency_symbol) || '₦';
