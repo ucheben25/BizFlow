@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BizBook Point of Sale (POS) & Checkout Engine
  */
 
@@ -6,8 +6,10 @@ let posProducts = [];
 let posCategories = [];
 let posCustomers = [];
 let posSelectedCategory = null;
+let posMobileTab = 'catalog'; // 'catalog' or 'cart'
 
 async function renderPOS() {
+  document.body.classList.add('pos-mode-active');
   const container = document.getElementById('app-view');
   const titleHeading = document.getElementById('page-title-heading');
   if (titleHeading) titleHeading.textContent = 'Point of Sale (POS)';
@@ -46,30 +48,75 @@ async function renderPOS() {
   }
 }
 
+function setPOSMobileTab(tab) {
+  posMobileTab = tab;
+  const layout = document.querySelector('.pos-layout');
+  if (layout) {
+    if (tab === 'catalog') {
+      layout.classList.add('view-catalog');
+      layout.classList.remove('view-cart');
+    } else {
+      layout.classList.add('view-cart');
+      layout.classList.remove('view-catalog');
+    }
+  }
+
+  // Update tab buttons
+  document.querySelectorAll('.pos-mobile-tab-btn').forEach((btn, idx) => {
+    if ((idx === 0 && tab === 'catalog') || (idx === 1 && tab === 'cart')) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Update floating bar visibility
+  const floatingBar = document.getElementById('pos-mobile-floating-bar');
+  const cartItemCount = State.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  if (floatingBar) {
+    floatingBar.style.display = (cartItemCount > 0 && tab === 'catalog') ? 'flex' : 'none';
+  }
+}
+
 function renderPOSLayout() {
   const container = document.getElementById('app-view');
   const cur = (State.currentBusiness && State.currentBusiness.currency_symbol) || '₦';
+  const cartItemCount = State.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  const cartTotal = getCartTotal();
 
   container.innerHTML = `
-    <div class="pos-layout">
+    <!-- Mobile Segmented Navigation (visible on mobile / <= 768px) -->
+    <div class="pos-mobile-nav">
+      <button type="button" class="pos-mobile-tab-btn ${posMobileTab === 'catalog' ? 'active' : ''}" onclick="setPOSMobileTab('catalog')">
+        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <span>Products (${posProducts.length})</span>
+      </button>
+      <button type="button" class="pos-mobile-tab-btn ${posMobileTab === 'cart' ? 'active' : ''}" onclick="setPOSMobileTab('cart')">
+        <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span>Order (<strong id="pos-mobile-order-badge">${cartItemCount}</strong>)</span>
+        <span class="pos-mobile-cart-badge" id="pos-mobile-order-total">${formatCurrency(cartTotal, cur)}</span>
+      </button>
+    </div>
+
+    <div class="pos-layout ${posMobileTab === 'catalog' ? 'view-catalog' : 'view-cart'}">
       <!-- Left Column: Catalog & Products -->
       <div class="pos-catalog-section">
         <!-- Search & Filter Controls -->
-        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+        <div class="pos-catalog-header">
           <div class="search-box" style="flex: 1;">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             <input type="text" id="pos-search-input" class="form-control search-input" placeholder="Search product name, SKU, or barcode..." oninput="handlePOSSearch(this.value)">
           </div>
-          <button class="btn btn-secondary" onclick="showAddProductModal()">+ Add Product</button>
+          <button class="btn btn-secondary" style="white-space: nowrap;" onclick="showAddProductModal()">+ Add Product</button>
         </div>
 
         <!-- Category Pills -->
         <div class="category-pill-row">
-          <div class="cat-pill ${posSelectedCategory === null ? 'active' : ''}" onclick="filterPOSCategory(null)">
+          <div class="cat-pill ${posSelectedCategory === null ? 'active' : ''}" data-cat-id="all" onclick="filterPOSCategory(null)">
             All Products (${posProducts.length})
           </div>
           ${posCategories.map(c => `
-            <div class="cat-pill ${posSelectedCategory === c.id ? 'active' : ''}" onclick="filterPOSCategory(${c.id})">
+            <div class="cat-pill ${posSelectedCategory === c.id ? 'active' : ''}" data-cat-id="${c.id}" onclick="filterPOSCategory(${c.id})">
               ${c.name}
             </div>
           `).join('')}
@@ -83,16 +130,21 @@ function renderPOSLayout() {
 
       <!-- Right Column: Cart & Checkout Drawer -->
       <div class="pos-cart-panel">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-          <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-dark);">Current Order</h2>
+        <div class="pos-cart-header" style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="btn btn-secondary btn-sm pos-back-btn" onclick="setPOSMobileTab('catalog')" title="Back to Products Catalog">
+              &larr; Products
+            </button>
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-dark); margin: 0;">Current Order</h2>
+          </div>
           <button class="btn btn-secondary btn-sm" onclick="clearCart()">Clear Cart</button>
         </div>
 
         <!-- Customer Selector -->
-        <div style="margin-top: 14px;">
-          <label class="form-label" style="font-size: 0.78rem;">Customer</label>
+        <div class="pos-cart-customer">
+          <label class="form-label" style="font-size: 0.78rem; margin-bottom: 4px;">Customer</label>
           <div style="display: flex; gap: 8px;">
-            <select class="form-control" style="font-size: 0.85rem;" onchange="State.cart.customerId = this.value">
+            <select class="form-control" style="font-size: 0.85rem; flex: 1;" onchange="State.cart.customerId = this.value">
               ${posCustomers.map(c => `
                 <option value="${c.id}" ${State.cart.customerId == c.id ? 'selected' : ''}>
                   ${c.name} ${c.outstanding_balance > 0 ? `(Owes ${formatCurrency(c.outstanding_balance, cur)})` : ''}
@@ -124,30 +176,44 @@ function renderPOSLayout() {
           </div>
 
           <!-- Payment Options -->
-          <div style="margin: 14px 0;">
-            <label class="form-label" style="font-size: 0.78rem;">Payment Method</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-              <button class="btn btn-sm ${State.cart.paymentMethod === 'cash' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('cash')">Cash</button>
-              <button class="btn btn-sm ${State.cart.paymentMethod === 'pos' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('pos')">POS Terminal</button>
-              <button class="btn btn-sm ${State.cart.paymentMethod === 'bank_transfer' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('bank_transfer')">Bank Transfer</button>
-              <button class="btn btn-sm ${State.cart.paymentMethod === 'credit' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('credit')">Credit / Unpaid</button>
+          <div style="margin: 10px 0;">
+            <label class="form-label" style="font-size: 0.78rem; margin-bottom: 4px;">Payment Method</label>
+            <div class="payment-method-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <button type="button" class="btn btn-sm ${State.cart.paymentMethod === 'cash' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('cash')">Cash</button>
+              <button type="button" class="btn btn-sm ${State.cart.paymentMethod === 'pos' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('pos')">POS Terminal</button>
+              <button type="button" class="btn btn-sm ${State.cart.paymentMethod === 'bank_transfer' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('bank_transfer')">Bank Transfer</button>
+              <button type="button" class="btn btn-sm ${State.cart.paymentMethod === 'credit' ? 'btn-primary' : 'btn-secondary'}" onclick="setPaymentMethod('credit')">Credit / Unpaid</button>
             </div>
           </div>
 
-          <div style="margin-bottom: 14px;">
+          <div class="pos-paid-wrapper" style="margin-bottom: 12px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <label class="form-label" style="font-size: 0.78rem; margin: 0;">Amount Paid Now</label>
-              <a href="javascript:void(0)" style="font-size: 0.75rem; font-weight: 700;" onclick="setFullPayment()">Pay Full</a>
+              <a href="javascript:void(0)" style="font-size: 0.75rem; font-weight: 700; color: var(--blue-primary);" onclick="setFullPayment()">Pay Full</a>
             </div>
             <input type="number" id="pos-paid-input" class="form-control" value="${State.cart.paidAmount !== undefined ? State.cart.paidAmount : getCartTotal()}" onchange="State.cart.paidAmount = Number(this.value)">
           </div>
 
-          <button class="btn btn-primary btn-block" style="padding: 12px; font-size: 1rem;" onclick="processCheckout()">
+          <button class="btn btn-primary btn-block pos-checkout-btn" style="padding: 12px; font-size: 1rem; font-weight: 800;" onclick="processCheckout()">
             Complete Sale & Print Receipt
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Mobile Floating Order Bar (visible on mobile catalog tab when items present) -->
+    <div id="pos-mobile-floating-bar" class="pos-mobile-floating-bar" style="display: ${(cartItemCount > 0 && posMobileTab === 'catalog') ? 'flex' : 'none'};" onclick="setPOSMobileTab('cart')">
+      <div class="pos-floating-left">
+        <span class="pos-floating-badge" id="pos-float-count">${cartItemCount} ${cartItemCount === 1 ? 'item' : 'items'}</span>
+        <span class="pos-floating-total" id="pos-float-total">${formatCurrency(cartTotal, cur)}</span>
+      </div>
+      <div class="pos-floating-right">
+        <span>Review Order & Pay</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </div>
+    </div>
+  `;
+}
   `;
 }
 
@@ -291,14 +357,34 @@ function updateCartView() {
   const totalEl = document.getElementById('pos-total');
   const paidInput = document.getElementById('pos-paid-input');
 
+  const cartTotal = getCartTotal();
+  const cartItemCount = State.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+
   if (cartList) cartList.innerHTML = renderCartItems(cur);
   if (subtotalEl) subtotalEl.textContent = formatCurrency(getCartSubtotal(), cur);
-  if (totalEl) totalEl.textContent = formatCurrency(getCartTotal(), cur);
+  if (totalEl) totalEl.textContent = formatCurrency(cartTotal, cur);
 
   // Default paid amount to total if previously matched or credit not chosen
   if (State.cart.paymentMethod !== 'credit' && paidInput) {
-    State.cart.paidAmount = getCartTotal();
+    State.cart.paidAmount = cartTotal;
     paidInput.value = State.cart.paidAmount;
+  }
+
+  // Update mobile tab indicators
+  const mobileOrderBadge = document.getElementById('pos-mobile-order-badge');
+  if (mobileOrderBadge) mobileOrderBadge.textContent = cartItemCount;
+
+  const mobileOrderTotal = document.getElementById('pos-mobile-order-total');
+  if (mobileOrderTotal) mobileOrderTotal.textContent = formatCurrency(cartTotal, cur);
+
+  // Update mobile floating bar
+  const floatingBar = document.getElementById('pos-mobile-floating-bar');
+  if (floatingBar) {
+    floatingBar.style.display = (cartItemCount > 0 && posMobileTab === 'catalog') ? 'flex' : 'none';
+    const floatCount = document.getElementById('pos-float-count');
+    if (floatCount) floatCount.textContent = `${cartItemCount} ${cartItemCount === 1 ? 'item' : 'items'}`;
+    const floatTotal = document.getElementById('pos-float-total');
+    if (floatTotal) floatTotal.textContent = formatCurrency(cartTotal, cur);
   }
 }
 
@@ -308,9 +394,15 @@ function filterPOSCategory(catId) {
   const grid = document.getElementById('pos-product-grid');
   if (grid) grid.innerHTML = renderPOSProductCards(filtered);
 
-  // Update pills active class
-  document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
-  event.target.classList.add('active');
+  // Update pills active class using data-cat-id
+  document.querySelectorAll('.cat-pill').forEach(el => {
+    const id = el.getAttribute('data-cat-id');
+    if ((catId === null && id === 'all') || String(id) === String(catId)) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+  });
 }
 
 function handlePOSSearch(term) {
@@ -347,6 +439,11 @@ async function processCheckout() {
 
     // Clear cart
     clearCart();
+
+    // Reset mobile view to catalog tab
+    if (posMobileTab !== 'catalog') {
+      setPOSMobileTab('catalog');
+    }
 
     // Show Printable Receipt Modal immediately
     showReceiptModal(res.sale.id);

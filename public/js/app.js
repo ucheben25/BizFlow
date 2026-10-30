@@ -161,6 +161,7 @@ async function handleRoute() {
   }
 
   // 2. Authentication Pages: #login, #register, /sign-in, /sign-up
+  document.body.classList.remove('pos-mode-active');
   if (cleanRoute === 'login' || cleanRoute === 'register') {
     if (API.getToken() && State.user && State.businesses?.length > 0) {
       window.location.hash = '#app/dashboard';
@@ -213,6 +214,12 @@ async function handleRoute() {
  * Dispatches active view rendering inside main workspace
  */
 function renderActiveView(viewName) {
+  if (viewName === 'pos') {
+    document.body.classList.add('pos-mode-active');
+  } else {
+    document.body.classList.remove('pos-mode-active');
+  }
+
   switch (viewName) {
     case 'dashboard':
       renderDashboard();
