@@ -95,7 +95,7 @@ button, input, select, textarea {
 
 /* Sidebar Navigation */
 .sidebar {
-  width: 260px;
+  width: 240px;
   background-color: var(--bg-sidebar);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -106,14 +106,16 @@ button, input, select, textarea {
   left: 0;
   z-index: 100;
   transition: transform 0.25s ease;
+  overflow: hidden;
 }
 
 .sidebar-header {
-  padding: 20px 24px;
+  padding: 14px 20px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
 }
 
 .brand-logo-container {
@@ -123,8 +125,8 @@ button, input, select, textarea {
 }
 
 .brand-logo-svg {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
 }
 
 .brand-info {
@@ -133,7 +135,7 @@ button, input, select, textarea {
 }
 
 .brand-name {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 800;
   letter-spacing: -0.5px;
   color: var(--blue-primary);
@@ -141,7 +143,7 @@ button, input, select, textarea {
 }
 
 .brand-tagline {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: var(--navy-muted);
   text-transform: uppercase;
@@ -150,8 +152,8 @@ button, input, select, textarea {
 
 /* Business Switcher in Sidebar */
 .business-switcher {
-  padding: 12px 16px;
-  margin: 12px 16px;
+  padding: 10px 12px;
+  margin: 8px 12px;
   background: var(--blue-subtle);
   border: 1px solid #D0E2FF;
   border-radius: var(--radius-md);
@@ -160,6 +162,7 @@ button, input, select, textarea {
   justify-content: space-between;
   cursor: pointer;
   transition: background 0.15s ease;
+  flex-shrink: 0;
 }
 
 .business-switcher:hover {
@@ -167,8 +170,8 @@ button, input, select, textarea {
 }
 
 .biz-avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   background: var(--blue-primary);
   color: #fff;
   border-radius: var(--radius-sm);
@@ -176,17 +179,17 @@ button, input, select, textarea {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .biz-details {
   flex: 1;
-  margin-left: 10px;
+  margin-left: 8px;
   overflow: hidden;
 }
 
 .biz-name {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--navy-dark);
   white-space: nowrap;
@@ -195,7 +198,7 @@ button, input, select, textarea {
 }
 
 .biz-role {
-  font-size: 0.7rem;
+  font-size: 0.67rem;
   color: var(--blue-primary);
   text-transform: capitalize;
   font-weight: 600;
@@ -205,30 +208,30 @@ button, input, select, textarea {
 .sidebar-nav {
   flex: 1;
   overflow-y: auto;
-  padding: 8px 12px;
+  padding: 6px 10px;
 }
 
 .nav-section-title {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.8px;
-  padding: 12px 12px 6px;
+  padding: 8px 10px 4px;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 10px;
+  padding: 8px 12px;
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.15s ease;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .nav-item:hover {
@@ -246,20 +249,22 @@ button, input, select, textarea {
 }
 
 .nav-item svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   stroke: currentColor;
   stroke-width: 2;
   fill: none;
+  flex-shrink: 0;
 }
 
 /* Sidebar Footer (User info) */
 .sidebar-footer {
-  padding: 16px;
+  padding: 12px 14px;
   border-top: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
 }
 
 .user-profile {
@@ -325,34 +330,36 @@ button, input, select, textarea {
 /* Main Content Area */
 .main-wrapper {
   flex: 1;
-  margin-left: 260px;
+  margin-left: 240px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 /* Top Navigation Bar */
 .topbar {
   background: #FFFFFF;
   border-bottom: 1px solid var(--border-color);
-  height: 64px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  padding: 0 22px;
   position: sticky;
   top: 0;
   z-index: 90;
+  flex-shrink: 0;
 }
 
 .topbar-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
 .page-title {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: var(--navy-dark);
   letter-spacing: -0.3px;
@@ -449,10 +456,9 @@ button, input, select, textarea {
 /* Content Container */
 .content-body {
   flex: 1;
-  padding: 28px;
-  max-width: 1400px;
+  padding: 20px 24px;
   width: 100%;
-  margin: 0 auto;
+  overflow-y: auto;
 }
 
 /* Cards */
@@ -460,9 +466,9 @@ button, input, select, textarea {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 18px 20px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   position: relative;
 }
 
@@ -470,11 +476,11 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .card-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 750;
   color: var(--navy-dark);
 }
@@ -488,16 +494,16 @@ button, input, select, textarea {
 /* KPI Metrics Grid */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
 }
 
 .kpi-card {
   background: #FFFFFF;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 16px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
@@ -514,11 +520,11 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .kpi-label {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -526,8 +532,8 @@ button, input, select, textarea {
 }
 
 .kpi-icon {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -540,7 +546,7 @@ button, input, select, textarea {
 .kpi-icon.amber { background: var(--color-warning-bg); color: var(--color-warning); }
 
 .kpi-value {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: var(--navy-dark);
   letter-spacing: -0.5px;
@@ -548,9 +554,9 @@ button, input, select, textarea {
 }
 
 .kpi-meta {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 4px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -590,8 +596,8 @@ button, input, select, textarea {
 
 .data-table th {
   background: #F8FAFC;
-  padding: 12px 16px;
-  font-size: 0.78rem;
+  padding: 10px 14px;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -600,8 +606,8 @@ button, input, select, textarea {
 }
 
 .data-table td {
-  padding: 14px 16px;
-  font-size: 0.88rem;
+  padding: 10px 14px;
+  font-size: 0.85rem;
   color: var(--text-primary);
   border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
@@ -617,21 +623,21 @@ button, input, select, textarea {
 
 /* Forms & Inputs */
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .form-label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .form-control {
   width: 100%;
-  padding: 10px 14px;
-  font-size: 0.9rem;
+  padding: 8px 12px;
+  font-size: 0.875rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   background: #FFFFFF;
@@ -648,7 +654,7 @@ button, input, select, textarea {
 .form-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  gap: 14px;
 }
 
 /* Buttons */
@@ -656,9 +662,9 @@ button, input, select, textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 18px;
-  font-size: 0.88rem;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
   font-weight: 700;
   border-radius: var(--radius-md);
   border: 1px solid transparent;
@@ -863,16 +869,16 @@ body.pos-mode-active .main-wrapper {
   overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
-  width: calc(100vw - 260px) !important; /* Explicit width: viewport minus fixed sidebar */
+  width: calc(100vw - 240px) !important; /* Explicit width: viewport minus fixed sidebar */
   flex-shrink: 0 !important;
 }
 
 body.pos-mode-active .content-body {
   flex: 1 1 0 !important;
   min-height: 0 !important;
-  height: calc(100vh - 64px) !important; /* Topbar is 64px, not 70px */
-  max-height: calc(100vh - 64px) !important;
-  padding: 14px 20px !important;
+  height: calc(100vh - 56px) !important; /* Topbar is 56px */
+  max-height: calc(100vh - 56px) !important;
+  padding: 12px 16px !important;
   max-width: 100% !important;
   width: 100% !important;
   margin: 0 !important;
@@ -885,8 +891,8 @@ body.pos-mode-active .content-body {
 /* POS Two-Column Grid Workstation */
 .pos-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 14px;
   flex: 1 1 0;
   min-height: 0;
   height: 100%;
@@ -1189,7 +1195,7 @@ body.pos-mode-active .content-body {
 @media (max-width: 768px) {
   body.pos-mode-active .main-wrapper {
     padding-bottom: 0 !important;
-    width: 100vw !important;        /* Override desktop's calc(100vw - 260px); sidebar hidden on mobile */
+    width: 100vw !important;        /* Override desktop's calc(100vw - 240px); sidebar hidden on mobile */
     margin-left: 0 !important;
   }
   body.pos-mode-active .content-body {
@@ -1396,7 +1402,8 @@ body.pos-mode-active .content-body {
 .ai-chat-container {
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: calc(100vh - 160px);
+  max-height: 560px;
   background: #FFFFFF;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -1581,6 +1588,54 @@ body.pos-mode-active .content-body {
 }
 
 /* Responsive Media Queries */
+
+/* ====================================================
+   1280px × 720px BASELINE LAPTOP OPTIMIZATION
+   All primary dashboard content sized and positioned
+   for this reference viewport at 100% browser zoom.
+   ==================================================== */
+
+/* Large desktop: give more breathing room */
+@media (min-width: 1440px) {
+  .content-body {
+    padding: 24px 32px;
+  }
+  .card {
+    padding: 20px 24px;
+  }
+}
+
+/* Short viewport height optimization (720px or less) */
+@media (max-height: 720px) and (min-width: 769px) {
+  .content-body {
+    padding: 14px 20px;
+  }
+  .card {
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .card-header {
+    margin-bottom: 10px;
+  }
+  .kpi-grid {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .kpi-card {
+    padding: 12px 14px;
+  }
+  .kpi-value {
+    font-size: 1.35rem;
+  }
+  .data-table th,
+  .data-table td {
+    padding: 8px 12px;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+}
+
 @media (max-width: 1024px) {
   .expenses-grid {
     grid-template-columns: 1fr;

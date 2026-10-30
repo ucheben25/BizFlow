@@ -31,8 +31,8 @@ async function runPOSContainmentTests() {
 
   // Content body sizing
   assert.ok(css.includes('body.pos-mode-active .content-body'), 'Content body must have dedicated POS workstation styles');
-  assert.ok(css.includes('height: calc(100vh - 64px)'), 'Content body must fit screen height minus topbar (64px)');
-  console.log('✔ Content body fitted to screen height minus header (calc(100vh - 64px)).');
+  assert.ok(css.includes('height: calc(100vh - 56px)'), 'Content body must fit screen height minus topbar (56px)');
+  console.log('✔ Content body fitted to screen height minus header (calc(100vh - 56px)).');
 
   // Grid layout containment
   assert.ok(css.includes('.pos-layout {'), '.pos-layout must be defined');
